@@ -39,7 +39,7 @@ namespace StarSync
 
         private void pWebDashBtn_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("");
+            System.Diagnostics.Process.Start(Common.baseUrl);
         }
 
         private void panelHideBtn_Click(object sender, EventArgs e)
