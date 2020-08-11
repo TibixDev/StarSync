@@ -1,0 +1,129 @@
+body {
+    background-color: #2b2b2b;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background: rgb(100,65,165);
+    background: linear-gradient(180deg, rgba(100,65,165,1) 0%, rgba(42,8,69,1) 100%);
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: hidden; /* Disable scrolling if the sidenav has too much content */
+}
+
+.sbtitle {
+    color: white;
+    text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+    font-size: 45;
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 700;
+    padding-left: 21%;
+    padding-top: 3%;
+    padding-bottom: 0px;
+}
+
+.welcomeUser {
+    color: white;	
+    text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+    font-size: 15;
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 700;
+    padding-left: 32%;
+    padding-bottom: 15%;
+}
+
+.logout {
+    padding-top: 40%;
+}
+
+li a {
+    display: block;
+    color: white;
+    padding: 5% 16px;
+    text-decoration: none;
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 500;
+}
+
+li a:hover {
+    background-color:rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+.main {
+    padding-left: 27%;
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 500;
+    color: white;
+}
+
+.uplHeader {
+    padding-top: 3%;
+}
+
+.custom-file-label {
+    color: #DEE2E6;
+    background-color: rgb(39, 39, 39);
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 400;
+}
+
+.ulCont {
+    max-width: 62%;
+}
+
+#dateBox {
+    max-width: 62%;
+}
+
+#uploadDateBox {
+    max-width: 62%;
+    padding-bottom: 3%;
+}
+
+.material-icons {
+    font-size: 36px!important;
+    vertical-align: middle;
+    padding-right: 4%;
+}
+
+.ulButtons{
+    display:inline-block;
+    padding:0.3em 1.9em;
+    margin:0em 1em 0.1em 0em;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Baloo Thambi 2', cursive;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #6a1b9a;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.2);
+}
+    
+.ulButtons:hover{
+    border-color: rgba(56,0,107,0.5);
+}
+
+/* Save history related CSS (dashboard-history.php) */
+
+.saveTextHeader{
+    padding-top: 2%;
+    padding-bottom: 3%;
+}
+
+.coloredTableHead{
+    background-color: rgb(100,65,165);
+    color: white;
+}
+
+.tableLink{
+    color: rgb(100,65,165)!important;
+}

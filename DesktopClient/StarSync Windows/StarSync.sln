@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarSync", "StarSync\StarSync.csproj", "{3EAE944E-D36E-4185-9725-495B3B72BFAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EAE944E-D36E-4185-9725-495B3B72BFAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EAE944E-D36E-4185-9725-495B3B72BFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EAE944E-D36E-4185-9725-495B3B72BFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EAE944E-D36E-4185-9725-495B3B72BFAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC643AC5-26D6-401F-9D3B-87D8788F15F4}
+	EndGlobalSection
+EndGlobal
