@@ -1,6 +1,6 @@
 <?php
 $conn = new mysqli('localhost', 'id12642094_starsync_admin', 'n0p3', 'id12642094_starsync_members');
-$uplUrl = "http://starsync.000webhostapp.com/upload.php";
+$uplUrl = "http://yourwebserver.example/api/api_upload.php";
 
 function redirect($msgID) {
     echo '<script language="javascript">setTimeout(function(){ window.location.href ="/redirect.php?messageID='. $msgID .'"; }, 0)</script>';
