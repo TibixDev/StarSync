@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_SyncSaves"
+        android:icon="@drawable/sync_icon"
+        android:title="@string/title_sync"
+        android:color="#FFFFFF"/>
+
+    <item
+        android:id="@+id/nav_SaveHistory"
+        android:icon="@drawable/history_icon"
+        android:title="@string/title_history"
+        android:color="#FFFFFF"/>
+
+    <item
+        android:id="@+id/nav_WebDashboard"
+        android:icon="@drawable/web_dashboard_icon"
+        android:title="@string/title_web_dashboard"
+        android:color="#FFFFFF"/>
+
+    <item
+        android:id="@+id/nav_Options"
+        android:icon="@drawable/settingsgear"
+        android:title="@string/title_options"
+        android:color="#FFFFFF"/>
+
+</menu>

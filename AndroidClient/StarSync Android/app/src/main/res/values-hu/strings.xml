@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StarSync</string>
+    <string name="api_key_input">API kulcs</string>
+    <string name="welcome_msg">Üdvözöllek! Ahhoz hogy használd a StarSync alkalmazást, szükséged lesz az API-kulcsra. Kérlek írd be az API-kulcsot</string>
+    <string name="login">Belépés</string>
+</resources>

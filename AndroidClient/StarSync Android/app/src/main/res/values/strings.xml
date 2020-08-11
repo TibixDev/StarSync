@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">StarSync</string>
+
+    <string name="welcome_msg">Welcome! To use StarSync for Android you are going to need an API key. Please enter it below</string>
+    <string name="api_key_input">API key</string>
+    <string name="login">Login</string>
+    <string name="title_activity_star_sync">MainActivity</string>
+    <string name="title_sync">Sync</string>
+    <string name="title_history">History</string>
+    <string name="title_web_dashboard">Web Dashboard</string>
+    <string name="title_options">Options</string>
+    <!-- Strings used for fragments for navigation -->
+
+
+
+</resources>
