@@ -1,5 +1,6 @@
 ﻿using Guna.UI2.AnimatorNS;
 using Guna.UI2.WinForms;
+using StarSync.SubForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,13 +18,17 @@ namespace StarSync
     {
         Guna2Transition gt = new Guna2Transition();
         Common common = new Common();
-        public StarSyncMain()
+        string username;
+        public StarSyncMain(string currentUser)
         {
             InitializeComponent();
+            username = currentUser;
         }
 
         private void StarSyncMain_Load(object sender, EventArgs e)
         {
+            verLabel.Text = $"{username} | Early Alpha 0.2";
+            verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
             gt.Interval = 3;
         }
 
@@ -73,6 +78,16 @@ namespace StarSync
             //ssf.AutoScroll = true;
             contentPanel.Controls.Add(ssf);
             ssf.Show();
+        }
+
+        private void pHistoryBtn_Click(object sender, EventArgs e)
+        {
+            contentPanel.Controls.Clear();
+            HistorySubForm hsf = new HistorySubForm();
+            hsf.TopLevel = false;
+            //ssf.AutoScroll = true;
+            contentPanel.Controls.Add(hsf);
+            hsf.Show();
         }
     }
 }

@@ -95,10 +95,16 @@
     <Compile Include="StarSyncMain.Designer.cs">
       <DependentUpon>StarSyncMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="SyncSubForm.cs">
+    <Compile Include="SubForms\HistorySubForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SyncSubForm.Designer.cs">
+    <Compile Include="SubForms\HistorySubForm.Designer.cs">
+      <DependentUpon>HistorySubForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForms\SyncSubForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForms\SyncSubForm.Designer.cs">
       <DependentUpon>SyncSubForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="LoginForm.resx">
@@ -117,7 +123,10 @@
     <EmbeddedResource Include="StarSyncMain.resx">
       <DependentUpon>StarSyncMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SyncSubForm.resx">
+    <EmbeddedResource Include="SubForms\HistorySubForm.resx">
+      <DependentUpon>HistorySubForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForms\SyncSubForm.resx">
       <DependentUpon>SyncSubForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

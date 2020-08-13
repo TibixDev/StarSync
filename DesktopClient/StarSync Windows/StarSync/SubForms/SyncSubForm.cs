@@ -75,7 +75,7 @@ namespace StarSync
             retrieveRequest.AddParameter("action", "getLatest");
             CrossThreadedTextChange(statusLabel, "Contacting server...");
             var response = await client.ExecuteAsync(retrieveRequest);
-            Common.apiData responseObj = JsonConvert.DeserializeObject<Common.apiData>(response.Content);
+            Common.APIData responseObj = JsonConvert.DeserializeObject<Common.APIData>(response.Content);
             if (responseObj.response != "invalidAPIKey")
             {
                 if (responseObj.modifyDate != null)
@@ -137,7 +137,7 @@ namespace StarSync
             uploadRequest.AddFile("fileToUpload", saveZipPath);
             CrossThreadedTextChange(statusLabel, "Uploading save package...");
             var response = await client.ExecuteAsync(uploadRequest);
-            Common.apiData responseObj = JsonConvert.DeserializeObject<Common.apiData>(response.Content);
+            Common.APIData responseObj = JsonConvert.DeserializeObject<Common.APIData>(response.Content);
             if (responseObj.status == "success")
             {
                 CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been uploaded.</font>");
@@ -149,7 +149,7 @@ namespace StarSync
             }
         }
 
-        private async void RetrieveTask(Common.apiData responseObj)
+        private async void RetrieveTask(Common.APIData responseObj)
         {
             CrossThreadedTextChange(statusLabel, "Download save package...");
             using (WebClient webClient = new WebClient())

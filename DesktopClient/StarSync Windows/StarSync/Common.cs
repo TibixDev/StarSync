@@ -18,19 +18,35 @@ namespace StarSync
         public static readonly string starSyncDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StarSync";
         public static readonly string stardewDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StardewValley\Saves";
 
-        public class apiData
+        public class APIData
         {
             public string response { get; set; }
             public string status { get; set; }
             public string uploadDate { get; set; }
             public string modifyDate { get; set; }
 
-            public apiData(string response, string status, string uploadDate = null, string modifyDate = null)
+            public APIData(string response, string status, string uploadDate = null, string modifyDate = null)
             {
                 this.response = response;
                 this.status = status;
                 this.uploadDate = uploadDate;
                 this.modifyDate = modifyDate;
+            }
+        }
+
+        public class APIHistoryData
+        {
+            public string fileName { get; set; }
+            public string fileUploadDate { get; set; }
+            public string fileModifyDate { get; set; }
+            public string fileOwner { get; set; }
+
+            public APIHistoryData(string fileName, string fileUploadDate, string fileModifyDate, string fileOwner)
+            {
+                this.fileName = fileName;
+                this.fileUploadDate = fileUploadDate;
+                this.fileModifyDate = fileModifyDate;
+                this.fileOwner = fileOwner;
             }
         }
 

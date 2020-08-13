@@ -131,6 +131,30 @@
             }
         break;
 
+        case "getHistory":
+            if ($validAuth) {
+                $finalData = array();
+                $historyQuery = "SELECT * FROM starsync_filedata WHERE fileOwner = '$currentUser' ORDER BY fileUploadDate DESC";
+                $historyResult = mysqli_query($conn, $historyQuery);
+                while ($row = mysqli_fetch_array($historyResult)) {
+                    $usable['fileName'] = $row['fileName'];
+                    $usable['fileUploadDate'] = $row['fileUploadDate'];
+                    $usable['fileModifyDate'] = $row['fileModifyDate'];
+                    $usable['fileOwner'] = $row['fileOwner'];
+                    $finalData[] = $usable;
+                }
+                if ($finalData != null) {
+                    $finalData = base64_encode(json_encode($finalData));
+                    $apiResponse->response = $finalData;
+                    $apiResponse->status = "success";
+                } 
+                else {
+                    $apiResponse->response = "noSaves";
+                    $apiResponse->status = "error";
+                }
+            }
+        break;
+
         default: 
             if ($validAuth) {
                 $apiResponse->response = "No valid API action was specified.";

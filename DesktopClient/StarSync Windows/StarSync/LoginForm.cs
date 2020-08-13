@@ -133,7 +133,7 @@ namespace StarSync
 
                 this.BeginInvoke((Action)delegate ()
                 {
-                    StarSyncMain ssMain = new StarSyncMain();
+                    StarSyncMain ssMain = new StarSyncMain(logonResponse.response);
                     ssMain.Show();
                     this.Hide();
                 });
