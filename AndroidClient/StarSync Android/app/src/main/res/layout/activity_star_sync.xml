@@ -21,5 +21,6 @@
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+        android:id="@+id/bottomNavMenu"/>
 </RelativeLayout>
