@@ -61,5 +61,10 @@ namespace StarSync
         {
             return Properties.Settings.Default.currentApiKey;
         }
+
+        public static int CompareDateTime(long d1Ticks, long d2Ticks)
+        {
+            return d1Ticks > d2Ticks ? -1 : d1Ticks < d2Ticks ? 1 : 0;
+        }
     }
 }

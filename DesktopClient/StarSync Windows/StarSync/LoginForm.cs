@@ -26,17 +26,26 @@ namespace StarSync
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // UI OnLoad Configuration
             gt.Interval = 3;
             welcomeLabel.Left = (this.Width - welcomeLabel.Width) / 2;
             titleLabel.Left = (this.Width - titleLabel.Width) / 2;
             genericLoading.Left = (this.Width - genericLoading.Width) / 2;
             apiKeyBox.PlaceholderText = "StarSync API Key";
 
+            // AutoLogin on RememberMe
             if (Properties.Settings.Default.savedApiKey != string.Empty && Properties.Settings.Default.rememberMe == true)
             {
-                Task verifyTask = new Task(() => apiVerifyTask(Properties.Settings.Default.savedApiKey));
+                Task verifyTask = new Task(() => APIVerifyTask(Properties.Settings.Default.savedApiKey));
                 verifyTask.Start();
             }
+
+            // Folder Structure Setup
+            if (!Directory.Exists(Common.starSyncDataDir))
+            {
+                Directory.CreateDirectory(Common.starSyncDataDir);
+            }
+
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
@@ -59,12 +68,12 @@ namespace StarSync
 
             else
             {
-                Task verifyTask = new Task(() => apiVerifyTask(apiKeyBox.Text));
+                Task verifyTask = new Task(() => APIVerifyTask(apiKeyBox.Text));
                 verifyTask.Start();
             }
         }
 
-        private async void apiVerifyTask(string apiKey)
+        private async void APIVerifyTask(string apiKey)
         {
             this.BeginInvoke((Action)delegate ()
             {
@@ -83,11 +92,11 @@ namespace StarSync
             request.AddParameter("apiKey", apiKey);
             request.AddParameter("action", "validateAuth");
             var response = await client.ExecuteAsync(request);
-            apiLogonResponse objectResp = JsonConvert.DeserializeObject<apiLogonResponse>(response.Content);
-            apiLogonHandler(objectResp, apiKey);
+            APILogonResponse objectResp = JsonConvert.DeserializeObject<APILogonResponse>(response.Content);
+            APILogonHandler(objectResp, apiKey);
         }
 
-        private async void apiLogonHandler(apiLogonResponse logonResponse, string apiKey)
+        private async void APILogonHandler(APILogonResponse logonResponse, string apiKey)
         {
             if (logonResponse.status == "success")
             {
@@ -143,11 +152,11 @@ namespace StarSync
             }
         }
 
-        public class apiLogonResponse
+        public class APILogonResponse
         {
             public string response { get; set; }
             public string status { get; set; }
-            public apiLogonResponse(string response, string status)
+            public APILogonResponse(string response, string status)
             {
                 this.response = response;
                 this.status = status;

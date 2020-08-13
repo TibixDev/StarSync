@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace StarSync
 {
@@ -29,16 +30,23 @@ namespace StarSync
 
         private void SyncSubForm_Load(object sender, EventArgs e)
         {
+            // UI OnLoad Configuration
             gt.Interval = 3;
             syncLabel.Left = (this.Width - syncLabel.Width) / 2;
             syncBtn.Left = (this.Width - syncBtn.Width) / 2;
             syncLoading.Visible = false;
             syncLoading.Left = (this.Width - syncLoading.Width) / 2;
             statusLabel.Left = (this.Width - statusLabel.Width) / 2;
-            stardewValidate();
+            
+            // Stardew Valley Validation
+            StardewValidate();
+
+            // CultureInfo Configuration
+            CultureInfo current = new CultureInfo("en-GB");
+            Application.CurrentCulture = current;
         }
 
-        private void stardewValidate()
+        private void StardewValidate()
         {
             if (!Directory.Exists(Common.stardewDataDir))
             {
@@ -53,19 +61,19 @@ namespace StarSync
         {
             syncLoading.Visible = true;
             syncBtn.Enabled = true;
-            Task apiSyncTask = new Task(() => syncTask());
+            Task apiSyncTask = new Task(() => SyncTask());
             apiSyncTask.Start();
         }
 
-        private async void syncTask()
+        private async void SyncTask()
         {
-            crossThreadAnimText(statusLabel, "Getting ready...");
+            CrossThreadedTextChange(statusLabel, "Getting ready...");
             DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir));
             RestClient client = new RestClient(Common.baseUrl);
             RestRequest retrieveRequest = new RestRequest("/api/api.php", Method.POST);
             retrieveRequest.AddParameter("apiKey", Common.GetCurrentAPIKey());
             retrieveRequest.AddParameter("action", "getLatest");
-            crossThreadAnimText(statusLabel, "Contacting server...");
+            CrossThreadedTextChange(statusLabel, "Contacting server...");
             var response = await client.ExecuteAsync(retrieveRequest);
             Common.apiData responseObj = JsonConvert.DeserializeObject<Common.apiData>(response.Content);
             if (responseObj.response != "invalidAPIKey")
@@ -75,24 +83,24 @@ namespace StarSync
                     DateTime lastRemoteWrite = Convert.ToDateTime(responseObj.modifyDate);
                     //MessageBox.Show($"Local Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastWrite)}\nRemote Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastRemoteWrite)}");
                     MessageBox.Show($"Local Stardew Valley Write Date: {lastWrite}\nRemote Stardew Valley Write Date: {lastRemoteWrite}");
-                    int comparisionResult = DateTime.Compare(lastWrite, lastRemoteWrite);
+                    int comparisionResult = Common.CompareDateTime(lastWrite.Ticks, lastRemoteWrite.Ticks);
                     MessageBox.Show($"Comparision result ({lastWrite} | {lastRemoteWrite}): {comparisionResult}\n\nTicks:\nLW: {lastWrite.Ticks}\nLRW: {lastRemoteWrite.Ticks}");
                     // -1 is local newer, 0 is same as remote source, 1 is remote newer
                     switch (comparisionResult)
                     {
                         case -1:
-                            uploadTask(lastWrite);
-                            crossThreadSyncComplete();
+                            UploadTask(lastWrite);
+                            CrossThreadedSyncFinish();
                             break;
 
                         case 0:
-                            crossThreadAnimText(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
-                            crossThreadSyncComplete();
+                            CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
+                            CrossThreadedSyncFinish();
                             break;
 
                         case 1:
-                            retrieveTask(responseObj);
-                            crossThreadSyncComplete();
+                            RetrieveTask(responseObj);
+                            CrossThreadedSyncFinish();
                             break;
                     }
                 }
@@ -100,20 +108,20 @@ namespace StarSync
                 else
                 {
                     DialogResult dialogResult = MessageBox.Show("StarSync Save Sync Subroutine", "It looks like you haven't uploaded any saves yet, so here's a warning:\nStarSync is not released yet, so there may be bugs. Anything can and will happen. We take no responsibility, so please make sure you have a backup of your saves. Are you sure you want to continue?", MessageBoxButtons.YesNo);
-                    uploadTask(lastWrite);
+                    UploadTask(lastWrite);
                 }
             }
 
             else
             {
-                crossThreadAnimText(statusLabel, $"<font style='font-size: 14; color: crimson;'>Sync Failed!<br><b>ERROR:</b> Your API Key is either invalid or has expired.<br></font><font style='font-size: 12;'>Key: {Common.GetCurrentAPIKey()}");
-                crossThreadSyncComplete();
+                CrossThreadedTextChange(statusLabel, $"<font style='font-size: 14; color: crimson;'>Sync Failed!<br><b>ERROR:</b> Your API Key is either invalid or has expired.<br></font><font style='font-size: 12;'>Key: {Common.GetCurrentAPIKey()}");
+                CrossThreadedSyncFinish();
             }
         }
 
-        private async void uploadTask(DateTime modifiedDate)
+        private async void UploadTask(DateTime modifiedDate)
         {
-            crossThreadAnimText(statusLabel, "Creating save package...");
+            CrossThreadedTextChange(statusLabel, "Creating save package...");
             DateTime currentDate = DateTime.Now;
             string saveZipPath = Common.starSyncDataDir + @"\ss_" + currentDate.ToString("yyyyMMdd_HHmmss") + ".zip";
             using (ZipFile zip = new ZipFile()) { 
@@ -127,28 +135,28 @@ namespace StarSync
             uploadRequest.AddParameter("uploadDate", Common.ConvertToSQLDateTime(currentDate));
             uploadRequest.AddParameter("modifiedDate", Common.ConvertToSQLDateTime(modifiedDate));
             uploadRequest.AddFile("fileToUpload", saveZipPath);
-            crossThreadAnimText(statusLabel, "Uploading save package...");
+            CrossThreadedTextChange(statusLabel, "Uploading save package...");
             var response = await client.ExecuteAsync(uploadRequest);
             Common.apiData responseObj = JsonConvert.DeserializeObject<Common.apiData>(response.Content);
             if (responseObj.status == "success")
             {
-                crossThreadAnimText(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been uploaded.</font>");
+                CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been uploaded.</font>");
             }
 
             else
             {
-                crossThreadAnimText(statusLabel, $"<font style='color: crimson;'>Sync Failed!<br>The new save couldn't be uploaded.<br><br><b>Error:</b> {responseObj.response}</font>");
+                CrossThreadedTextChange(statusLabel, $"<font style='color: crimson;'>Sync Failed!<br>The new save couldn't be uploaded.<br><br><b>Error:</b> {responseObj.response}</font>");
             }
         }
 
-        private async void retrieveTask(Common.apiData responseObj)
+        private async void RetrieveTask(Common.apiData responseObj)
         {
-            crossThreadAnimText(statusLabel, "Download save package...");
+            CrossThreadedTextChange(statusLabel, "Download save package...");
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadFile(new System.Uri($"{Common.baseUrl}/saveData/{Properties.Settings.Default.currentUser}/{responseObj.response}"), $@"{Common.starSyncDataDir}\tempSavedata.zip");
             }
-            crossThreadAnimText(statusLabel, "Applying save package...");
+            CrossThreadedTextChange(statusLabel, "Applying save package...");
             using (ZipFile zip = ZipFile.Read($@"{Common.starSyncDataDir}\tempSavedata.zip"))
             {
                 foreach (ZipEntry entry in zip)
@@ -157,21 +165,19 @@ namespace StarSync
                 }
             }
             File.Delete($@"{Common.starSyncDataDir}\tempSavedata.zip");
-            crossThreadAnimText(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been applied.");
+            CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been applied.");
         }
 
-        private void crossThreadAnimText(Control currentControl, string text)
+        private void CrossThreadedTextChange(Control currentControl, string text)
         {
             this.BeginInvoke((Action)delegate ()
             {
-                gt.HideSync(currentControl, false, Animation.Transparent);
                 currentControl.Text = text;
                 currentControl.Left = (this.Width - currentControl.Width) / 2;
-                gt.ShowSync(currentControl, false, Animation.Transparent);
             });
         }
 
-        private void crossThreadSyncComplete()
+        private void CrossThreadedSyncFinish()
         {
            this.BeginInvoke((Action)async delegate ()
            {
