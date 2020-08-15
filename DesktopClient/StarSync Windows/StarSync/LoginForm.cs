@@ -86,17 +86,11 @@ namespace StarSync
             });
 
 
-            var client = new RestClient(Common.baseUrl);
-            var request = new RestRequest("api/api.php", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddParameter("apiKey", apiKey);
-            request.AddParameter("action", "validateAuth");
-            var response = await client.ExecuteAsync(request);
-            APILogonResponse objectResp = JsonConvert.DeserializeObject<APILogonResponse>(response.Content);
+            Common.APIData objectResp = Common.APISimpleRequest("validateAuth", apiKey);
             APILogonHandler(objectResp, apiKey);
         }
 
-        private async void APILogonHandler(APILogonResponse logonResponse, string apiKey)
+        private async void APILogonHandler(Common.APIData logonResponse, string apiKey)
         {
             if (logonResponse.status == "success")
             {
@@ -149,17 +143,6 @@ namespace StarSync
                     gt.ShowSync(statusLabel, false, Animation.Transparent);
                     loginBtn.Enabled = true;
                 });
-            }
-        }
-
-        public class APILogonResponse
-        {
-            public string response { get; set; }
-            public string status { get; set; }
-            public APILogonResponse(string response, string status)
-            {
-                this.response = response;
-                this.status = status;
             }
         }
 

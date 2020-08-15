@@ -1,8 +1,11 @@
 ﻿using Guna.UI2.WinForms.Suite;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +51,25 @@ namespace StarSync
                 this.fileModifyDate = fileModifyDate;
                 this.fileOwner = fileOwner;
             }
+        }
+
+        public static APIData APISimpleRequest(string action, string apiKey = null, string path = null)
+        {
+            if (apiKey == null)
+            {
+                apiKey = GetCurrentAPIKey();
+            }
+            RestClient client = new RestClient(baseUrl);
+            RestRequest request = new RestRequest("/api/api.php", Method.POST);
+            request.AddParameter("apiKey", apiKey);
+            request.AddParameter("action", action);
+            if (path != null)
+            {
+                request.AddFile("fileToUpload", path);
+            }
+            var response = client.Execute(request);
+            APIData responseObj = JsonConvert.DeserializeObject<APIData>(response.Content);
+            return responseObj;
         }
 
         public static string ConvertToSQLDateTime(DateTime entry)

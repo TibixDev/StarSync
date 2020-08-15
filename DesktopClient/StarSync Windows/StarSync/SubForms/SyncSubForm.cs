@@ -69,13 +69,10 @@ namespace StarSync
         {
             CrossThreadedTextChange(statusLabel, "Getting ready...");
             DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir));
-            RestClient client = new RestClient(Common.baseUrl);
-            RestRequest retrieveRequest = new RestRequest("/api/api.php", Method.POST);
-            retrieveRequest.AddParameter("apiKey", Common.GetCurrentAPIKey());
-            retrieveRequest.AddParameter("action", "getLatest");
             CrossThreadedTextChange(statusLabel, "Contacting server...");
-            var response = await client.ExecuteAsync(retrieveRequest);
-            Common.APIData responseObj = JsonConvert.DeserializeObject<Common.APIData>(response.Content);
+            Common.APIData responseObj = Common.APISimpleRequest("getLatest");
+            MessageBox.Show(responseObj.response);
+
             if (responseObj.response != "invalidAPIKey")
             {
                 if (responseObj.modifyDate != null)
@@ -107,8 +104,17 @@ namespace StarSync
 
                 else
                 {
-                    DialogResult dialogResult = MessageBox.Show("StarSync Save Sync Subroutine", "It looks like you haven't uploaded any saves yet, so here's a warning:\nStarSync is not released yet, so there may be bugs. Anything can and will happen. We take no responsibility, so please make sure you have a backup of your saves. Are you sure you want to continue?", MessageBoxButtons.YesNo);
-                    UploadTask(lastWrite);
+                    DialogResult dialogResult = MessageBox.Show("It looks like you haven't uploaded any saves yet, so here's a warning:\nStarSync is not released yet, so there may be bugs.\nAnything can and will happen. We take no responsibility, so please make sure you have a backup of your saves.\n\nAre you sure you want to continue?", "StarSync Save Sync Subroutine", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        UploadTask(lastWrite);
+                    }
+
+                    else
+                    {
+                        CrossThreadedTextChange(statusLabel, "Sync Cancelled By User");
+                        CrossThreadedSyncFinish();
+                    }
                 }
             }
 
@@ -119,7 +125,7 @@ namespace StarSync
             }
         }
 
-        private async void UploadTask(DateTime modifiedDate)
+        private void UploadTask(DateTime modifiedDate)
         {
             CrossThreadedTextChange(statusLabel, "Creating save package...");
             DateTime currentDate = DateTime.Now;
@@ -136,7 +142,7 @@ namespace StarSync
             uploadRequest.AddParameter("modifiedDate", Common.ConvertToSQLDateTime(modifiedDate));
             uploadRequest.AddFile("fileToUpload", saveZipPath);
             CrossThreadedTextChange(statusLabel, "Uploading save package...");
-            var response = await client.ExecuteAsync(uploadRequest);
+            var response = client.Execute(uploadRequest);
             Common.APIData responseObj = JsonConvert.DeserializeObject<Common.APIData>(response.Content);
             if (responseObj.status == "success")
             {
