@@ -71,7 +71,7 @@ namespace StarSync
             DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir));
             CrossThreadedTextChange(statusLabel, "Contacting server...");
             Common.APIData responseObj = Common.APISimpleRequest("getLatest");
-            MessageBox.Show(responseObj.response);
+            //MessageBox.Show(responseObj.response);
 
             if (responseObj.response != "invalidAPIKey")
             {
@@ -79,9 +79,9 @@ namespace StarSync
                 {
                     DateTime lastRemoteWrite = Convert.ToDateTime(responseObj.modifyDate);
                     //MessageBox.Show($"Local Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastWrite)}\nRemote Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastRemoteWrite)}");
-                    MessageBox.Show($"Local Stardew Valley Write Date: {lastWrite}\nRemote Stardew Valley Write Date: {lastRemoteWrite}");
+                    //MessageBox.Show($"Local Stardew Valley Write Date: {lastWrite}\nRemote Stardew Valley Write Date: {lastRemoteWrite}");
                     int comparisionResult = Common.CompareDateTime(lastWrite.Ticks, lastRemoteWrite.Ticks);
-                    MessageBox.Show($"Comparision result ({lastWrite} | {lastRemoteWrite}): {comparisionResult}\n\nTicks:\nLW: {lastWrite.Ticks}\nLRW: {lastRemoteWrite.Ticks}");
+                    //MessageBox.Show($"Comparision result ({lastWrite} | {lastRemoteWrite}): {comparisionResult}\n\nTicks:\nLW: {lastWrite.Ticks}\nLRW: {lastRemoteWrite.Ticks}");
                     // -1 is local newer, 0 is same as remote source, 1 is remote newer
                     switch (comparisionResult)
                     {

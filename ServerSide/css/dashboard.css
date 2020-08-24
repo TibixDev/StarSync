@@ -20,7 +20,7 @@ ul {
     font-size: 45;
     font-family: 'Baloo Thambi 2', cursive;
     font-weight: 700;
-    padding-left: 21%;
+    text-align: center;
     padding-top: 3%;
     padding-bottom: 0px;
 }
@@ -31,12 +31,12 @@ ul {
     font-size: 15;
     font-family: 'Baloo Thambi 2', cursive;
     font-weight: 700;
-    padding-left: 32%;
-    padding-bottom: 15%;
+    text-align: center;
+    padding-bottom: 10%;
 }
 
 .logout {
-    padding-top: 40%;
+    padding-top: 25%;
 }
 
 li a {
@@ -60,6 +60,7 @@ li a:hover {
     color: white;
 }
 
+/* Upload Related CSS (dashboard-upload.php) */
 .uplHeader {
     padding-top: 3%;
 }
@@ -126,4 +127,21 @@ li a:hover {
 
 .tableLink{
     color: rgb(100,65,165)!important;
+}
+
+/* Profile page related CSS (dashboard-profile.php) */
+#pic {
+    width: 200px;
+}
+
+#sep {
+  background-color: #6a1b9a;
+  width: 4px;
+}
+
+/* Application page related CSS (dashboard-apps.php) */
+.appImg{
+    float: left;
+    width: 10%;
+    padding-right: 1%;
 }

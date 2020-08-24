@@ -9,7 +9,7 @@ if(!isset($_SESSION['username'])) {
 <html>
 <!-- Side navigation -->
 <head>
-    <title>StarSync - About</title>
+    <title>StarSync - Apps</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-dark.min.css">
@@ -34,16 +34,23 @@ if(!isset($_SESSION['username'])) {
   <!-- Page content -->
 <div class="main">
     <div class="container-fluid">
-        <h1 class="pl-2 pt-4"><strong>StarSync</strong> - Created with ❤️ by Tibix</h1>
-        <br>
-        <h2 class="pl-2">StarSync is a cross-platform cloud save management app created for Stardew Valley.</h2>
-        <br>
-        <h2 class="pl-2">StarSync is free, and it will always be free. I do not earn any revenue from this project. Hosting is covered by me, and any donations are welcome.</h2>
-        <br>
-        <br>
-        <h2 class="pl-2">Credits:</h2>
-        <h2 class="pl-2"><strong>ConcernedApe</strong> - For creating Stardew Valley</h2>
-        <h2 class="pl-2"><strong>StackOverflow</strong> - For everything else</h2>
+        <h1 class="pt-3 pb-5">StarSync Application Downloads</h1>
+        <row class="pb-3 pr-1 my-auto d-inline-block">
+            <img class="appImg" alt="Windows Icon" src="../assets/ss_win_ico.png">
+            <h2><a href="#">Windows Download</a> (v0.2 Alpha)</h2>
+        </row>
+        <row class="pb-3 pr-1 my-auto d-inline-block">
+            <img class="appImg" alt="Android Icon" src="../assets/ss_android_ico.png">
+            <h2><a href="#">Android Download</a> (v0.1 Alpha)</h2>
+        </row>
+        <row class="pb-3 pr-1 my-auto d-inline-block">
+            <img class="appImg" alt="Ubuntu Icon" src="../assets/ss_ubuntu_ico.png">
+            <h2><a href="#">Ubuntu Download</a> (TBD)</h2>
+        </row>
+        <row class="pb-3 pr-1 my-auto d-inline-block">
+            <img class="appImg" alt="OS X Icon" src="../assets/ss_osx_ico.png">
+            <h2><a href="#">OS X Download</a> (TBD)</h2>
+        </row>
     </div>
 </div>
 <!--

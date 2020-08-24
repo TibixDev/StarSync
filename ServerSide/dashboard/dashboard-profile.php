@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+
 if(!isset($_SESSION['username'])) {
     header('location:/login.php');
 }
@@ -9,17 +9,26 @@ if(!isset($_SESSION['username'])) {
 <html>
 <!-- Side navigation -->
 <head>
-    <title>StarSync - Save Upload</title>
+    <title>StarSync - Profile</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-dark.min.css">
     <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script>
+        function copyAPIKey() {
+            var key = "<?php echo $_SESSION['apiKey'];?>";
+            var tempBox = document.createElement("textarea");
+            document.body.appendChild(tempBox);
+            tempBox.value = key;
+            tempBox.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempBox);
+        }
+    </script>
 </head>
 
 <body>
-<script type="text/javascript" src="../utils.js"></script>
-
 <div class="sidenav">
     <ul>
         <h1 class="sbTitle">StarSync</h1>
@@ -34,34 +43,29 @@ if(!isset($_SESSION['username'])) {
 </div>
   
   <!-- Page content -->
-<div class="main">
+  <div class="main">
     <div class="container-fluid">
-        <form action="/upload.php" method="post" enctype="multipart/form-data">
-            <h3 class="uplHeader">Select A Save File To Upload.</h3>
-            <!-- <input type="file" name="fileToUpload" id="fileToUpload" required><br> -->
-            <div class="custom-file overflow-hidden mb-3 ulCont">
-                    <input id="customFile" name="fileToUpload" type="file" class="custom-file-input">
-                    <label for="customFile" class="custom-file-label">Choose file</label>
+        <div class="profileContainer">
+            <div class="profileHeader pt-5 text-center">
+                <img src="../assets/ss_profile_ico.png" id="pic" class="pt-2" alt="User Icon"></img>
+                <h1 class="pt-2"><?php echo $_SESSION['username'];?></h1>
             </div>
-            <div class="input-group mb-3" id="dateBox">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Date Modified</span>
+            <div class="row pt-3">
+                <div class="col text-right">
+                    <h2 class="text-right">Registered On: 2020/8/20</h2>
+                    <h2 class="text-right">Saves Upload: 14</h2>
+                    <h2 class="text-right">Times Synced: 200</h2>
                 </div>
-                <input type="text" class="form-control" id="dateModified" name="dateModified" aria-describedby="basic-addon3" required>
-            </div>
-            <div class="input-group mb-3" id="uploadDateBox">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Current Date</span>
+                <div id="sep" class="mx-1">
                 </div>
-                <input type="text" class="form-control" id="uploadDate" name="uploadDate" aria-describedby="basic-addon3" required>
+                <div class="col text-left">
+                    <h2 class="text-left">API Key: <button type="button" class="ulButtons" style="font-size: 20px; margin: 0; padding-left: 5px; padding-right: 5px;" onclick="copyAPIKey();">Copy</button><h2>
+                    <h2 class="text-left">QR: <img class="ml-2" src="../api/api-qrgen.php?input=<?php echo $_SESSION['apiKey'];?>"></h2>
+                </div>
             </div>
-            <button type="submit" class="ulButtons"> Upload Progress </button>
-            <button type="button" class="ulButtons" onclick="showFileModified()"> Get Modified Date </button>
-        <button type="button" class="ulButtons" onclick="showUploadDate()"> Get Current Date </button>
-        </form>
+        </div>
     </div>
 </div>
-
 <!--
 </body>
 

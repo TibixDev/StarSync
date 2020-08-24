@@ -191,5 +191,17 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ss_trash_ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ss_rst_ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ss_remove_ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ss_restore_ico.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

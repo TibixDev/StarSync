@@ -155,6 +155,12 @@
             }
         break;
 
+        case "deleteSave":
+        break;
+
+        case "restoreSave":
+        break;
+
         default: 
             if ($validAuth) {
                 $apiResponse->response = "No valid API action was specified.";

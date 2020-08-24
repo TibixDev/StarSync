@@ -173,6 +173,26 @@ namespace StarSync.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ss_remove_ico {
+            get {
+                object obj = ResourceManager.GetObject("ss_remove_ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ss_restore_ico {
+            get {
+                object obj = ResourceManager.GetObject("ss_restore_ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap widget {
             get {
                 object obj = ResourceManager.GetObject("widget", resourceCulture);

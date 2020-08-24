@@ -30,6 +30,7 @@ $query = "SELECT * FROM starsync_filedata WHERE fileOwner = '$user' ORDER BY fil
         <h3 class="welcomeUser">Welcome, <?php echo $_SESSION['username'];?>!</h3>
         <li><a href="dashboard-upload.php"><span class="material-icons">backup</span>Upload Saves</a></li>
         <li><a href="dashboard-history.php"><span class="material-icons">save</span>Save History</a></li>
+        <li><a href="dashboard-profile.php"><span class="material-icons">account_circle</span>Profile</a></li>
         <li><a href="dashboard-apps.php"><span class="material-icons">apps</span>Applications</a></li>
         <li><a href="dashboard-about.php"><span class="material-icons">info</span>About</a></li>
         <li class="logout"><a href="/logout.php"><span class="material-icons">exit_to_app</span>Logout</a></li>

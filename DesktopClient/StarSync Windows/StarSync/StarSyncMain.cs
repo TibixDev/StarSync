@@ -27,6 +27,7 @@ namespace StarSync
 
         private void StarSyncMain_Load(object sender, EventArgs e)
         {
+            
             verLabel.Text = $"{username} | Early Alpha 0.2";
             verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
             gt.Interval = 3;

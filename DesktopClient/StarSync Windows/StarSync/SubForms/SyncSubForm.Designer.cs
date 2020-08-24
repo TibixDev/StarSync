@@ -42,7 +42,6 @@
             // 
             // syncBtn
             // 
-            this.syncBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.syncBtn.AutoRoundedCorners = true;
             this.syncBtn.BackColor = System.Drawing.Color.Transparent;
             this.syncBtn.BorderRadius = 64;
@@ -54,7 +53,7 @@
             this.syncBtn.HoverState.Parent = this.syncBtn;
             this.syncBtn.Image = global::StarSync.Properties.Resources.icons8_cloud_sync_96_alt;
             this.syncBtn.ImageSize = new System.Drawing.Size(100, 100);
-            this.syncBtn.Location = new System.Drawing.Point(220, 79);
+            this.syncBtn.Location = new System.Drawing.Point(294, 79);
             this.syncBtn.Name = "syncBtn";
             this.syncBtn.ShadowDecoration.BorderRadius = 60;
             this.syncBtn.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
@@ -70,7 +69,7 @@
             this.syncLabel.BackColor = System.Drawing.Color.Transparent;
             this.syncLabel.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.syncLabel.ForeColor = System.Drawing.Color.White;
-            this.syncLabel.Location = new System.Drawing.Point(175, -2);
+            this.syncLabel.Location = new System.Drawing.Point(260, -2);
             this.syncLabel.Name = "syncLabel";
             this.syncLabel.Size = new System.Drawing.Size(211, 45);
             this.syncLabel.TabIndex = 5;
@@ -84,7 +83,7 @@
             this.syncLoading.BackColor = System.Drawing.Color.Transparent;
             this.syncLoading.FillColor = System.Drawing.Color.Transparent;
             this.syncLoading.FillThickness = 10;
-            this.syncLoading.Location = new System.Drawing.Point(283, 64);
+            this.syncLoading.Location = new System.Drawing.Point(357, 64);
             this.syncLoading.Name = "syncLoading";
             this.syncLoading.ProgressBrushMode = Guna.UI2.WinForms.Enums.BrushMode.Solid;
             this.syncLoading.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
@@ -102,7 +101,7 @@
             this.statusLabel.BackColor = System.Drawing.Color.Transparent;
             this.statusLabel.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusLabel.ForeColor = System.Drawing.Color.White;
-            this.statusLabel.Location = new System.Drawing.Point(169, 230);
+            this.statusLabel.Location = new System.Drawing.Point(243, 230);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(261, 34);
             this.statusLabel.TabIndex = 8;
@@ -114,7 +113,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(28)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(550, 370);
+            this.ClientSize = new System.Drawing.Size(750, 360);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.syncLoading);
             this.Controls.Add(this.syncLabel);

@@ -9,13 +9,14 @@ $result = mysqli_query($conn, $accSearch);
 $totalAccs = mysqli_num_rows($result);
 
 if ($totalAccs == 1) {
-    $passHashQuery = "SELECT userPwd FROM starsync_db WHERE userAccount = '$name'";
+    $passHashQuery = "SELECT * FROM starsync_db WHERE userAccount = '$name'";
     $phqResult = mysqli_query($conn, $passHashQuery);
     $row = mysqli_fetch_assoc($phqResult);
     $passHash = $row["userPwd"];
     if (password_verify($pass, $passHash)) 
     {
         $_SESSION['username'] = $name;
+        $_SESSION['apiKey'] = $row["apiKey"];
         redirect("loginSuccess");
         exit();
     }
