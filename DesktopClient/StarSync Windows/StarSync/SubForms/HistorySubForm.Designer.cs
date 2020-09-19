@@ -37,6 +37,7 @@
             this.historyGrid = new Guna.UI2.WinForms.Guna2DataGridView();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.fileID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileUploadDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileModifyDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,6 +83,7 @@
             this.historyGrid.ColumnHeadersHeight = 30;
             this.historyGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.historyGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.fileID,
             this.fileName,
             this.fileUploadDate,
             this.fileModifyDate,
@@ -107,7 +109,7 @@
             this.historyGrid.RowTemplate.ReadOnly = true;
             this.historyGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.historyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.historyGrid.Size = new System.Drawing.Size(720, 291);
+            this.historyGrid.Size = new System.Drawing.Size(720, 290);
             this.historyGrid.TabIndex = 2;
             this.historyGrid.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.Default;
             this.historyGrid.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(62)))), ((int)(((byte)(66)))));
@@ -131,6 +133,7 @@
             this.historyGrid.ThemeStyle.RowsStyle.Height = 40;
             this.historyGrid.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(62)))), ((int)(((byte)(66)))));
             this.historyGrid.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.historyGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.historyGrid_CellClickHandler);
             // 
             // dataGridViewImageColumn1
             // 
@@ -145,6 +148,14 @@
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.ReadOnly = true;
             this.dataGridViewImageColumn2.Width = 140;
+            // 
+            // fileID
+            // 
+            this.fileID.DataPropertyName = "fileID";
+            this.fileID.HeaderText = "File ID";
+            this.fileID.Name = "fileID";
+            this.fileID.ReadOnly = true;
+            this.fileID.Visible = false;
             // 
             // fileName
             // 
@@ -217,6 +228,7 @@
         private Guna.UI2.WinForms.Guna2DataGridView historyGrid;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileID;
         private System.Windows.Forms.DataGridViewTextBoxColumn fileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn fileUploadDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn fileModifyDate;

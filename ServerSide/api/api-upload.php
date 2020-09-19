@@ -12,7 +12,7 @@ function apiUpload($user, $file, $uploadDate, $modifiedDate, $conn) {
     $upload_date = escape($uploadDate);
     $date_modified = escape($modifiedDate);
     $saveQuery = " INSERT INTO starsync_filedata(fileName, fileUploadDate, fileModifyDate, fileOwner) VALUES ('$orig_name' , '$upload_date', '$date_modified', '$user')";
-    $apiResponse = null;
+    $apiResponse = new stdClass();
 
     if ($fileType !== 'zip') {
         $apiResponse->response = "File was not in ZIP format.";

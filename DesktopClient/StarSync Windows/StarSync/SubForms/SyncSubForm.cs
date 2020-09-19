@@ -22,10 +22,14 @@ namespace StarSync
 {
     public partial class SyncSubForm : Form
     {
+        private string action = null;
+        private string actionKeyWord = null;
+        private bool validated;
         Guna2Transition gt = new Guna2Transition();
-        public SyncSubForm()
+        public SyncSubForm(string refererAction = null)
         {
             InitializeComponent();
+            action = refererAction;
         }
 
         private void SyncSubForm_Load(object sender, EventArgs e)
@@ -39,14 +43,18 @@ namespace StarSync
             statusLabel.Left = (this.Width - statusLabel.Width) / 2;
             
             // Stardew Valley Validation
-            StardewValidate();
+            validated = StardewValidate();
 
             // CultureInfo Configuration
             CultureInfo current = new CultureInfo("en-GB");
             Application.CurrentCulture = current;
+
+            // Handle Referer Action If Present
+            if (action != null)
+                RefererActionHandler(action);
         }
 
-        private void StardewValidate()
+        private bool StardewValidate()
         {
             if (!Directory.Exists(Common.stardewDataDir))
             {
@@ -54,7 +62,13 @@ namespace StarSync
                 statusLabel.Text = $"<font style='font-size: 12; color: crimson;'><b>ERROR:</b> A valid Stardew Valley save directory wasn't found.<br>Please make sure Stardew Valley is installed,\nand that you have a valid save.<br><br>( {Common.stardewDataDir} )</font>";
                 statusLabel.Left = (this.Width - statusLabel.Width) / 2;
                 gt.ShowSync(statusLabel, false, Animation.Transparent);
+                return false;
             }
+            else
+            {
+                return true;
+            }
+            
         }
 
         private async void syncBtn_Click(object sender, EventArgs e)
@@ -68,7 +82,7 @@ namespace StarSync
         private async void SyncTask()
         {
             CrossThreadedTextChange(statusLabel, "Getting ready...");
-            DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir));
+            DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir)).ToUniversalTime();
             CrossThreadedTextChange(statusLabel, "Contacting server...");
             Common.APIData responseObj = Common.APISimpleRequest("getLatest");
             //MessageBox.Show(responseObj.response);
@@ -78,7 +92,7 @@ namespace StarSync
                 if (responseObj.modifyDate != null)
                 {
                     DateTime lastRemoteWrite = Convert.ToDateTime(responseObj.modifyDate);
-                    //MessageBox.Show($"Local Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastWrite)}\nRemote Stardew Valley Write Date: {common.ConvertToSQLDateTime(lastRemoteWrite)}");
+                    //MessageBox.Show($"Local Stardew Valley Write Date: {Common.ConvertToSQLDateTime(lastWrite)}\nRemote Stardew Valley Write Date: {Common.ConvertToSQLDateTime(lastRemoteWrite)}");
                     //MessageBox.Show($"Local Stardew Valley Write Date: {lastWrite}\nRemote Stardew Valley Write Date: {lastRemoteWrite}");
                     int comparisionResult = Common.CompareDateTime(lastWrite.Ticks, lastRemoteWrite.Ticks);
                     //MessageBox.Show($"Comparision result ({lastWrite} | {lastRemoteWrite}): {comparisionResult}\n\nTicks:\nLW: {lastWrite.Ticks}\nLRW: {lastRemoteWrite.Ticks}");
@@ -171,6 +185,7 @@ namespace StarSync
                 }
             }
             File.Delete($@"{Common.starSyncDataDir}\tempSavedata.zip");
+            if (action == null)
             CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>The new save has been applied.");
         }
 
@@ -190,6 +205,27 @@ namespace StarSync
                gt.HideSync(syncLoading, false, Animation.Transparent);
                syncBtn.Enabled = true;
            });
+        }
+
+        private void RefererActionHandler(string action)
+        {
+            if (validated && action != null)
+            {
+                switch (action)
+                {
+                    case "restoreSync":
+                        MessageBox.Show($"{action} - Initiating Restore Synchronization!");
+                        actionKeyWord = "Restore";
+                        syncLoading.Visible = true;
+                        syncBtn.Enabled = true;
+                        Task restoreSyncTask = new Task(() => SyncTask());
+                        restoreSyncTask.Start();
+                        break;
+
+                    case null:
+                        break;
+                }
+            }
         }
     }
 }

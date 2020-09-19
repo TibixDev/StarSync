@@ -17,8 +17,7 @@ namespace StarSync
     public partial class StarSyncMain : Form
     {
         Guna2Transition gt = new Guna2Transition();
-        Common common = new Common();
-        string username;
+        private string username;
         public StarSyncMain(string currentUser)
         {
             InitializeComponent();
@@ -84,11 +83,29 @@ namespace StarSync
         private void pHistoryBtn_Click(object sender, EventArgs e)
         {
             contentPanel.Controls.Clear();
-            HistorySubForm hsf = new HistorySubForm();
+            HistorySubForm hsf = new HistorySubForm(this);
             hsf.TopLevel = false;
             //ssf.AutoScroll = true;
             contentPanel.Controls.Add(hsf);
             hsf.Show();
+        }
+
+        public void ExternalSync(string action)
+        {
+            this.BeginInvoke((Action)async delegate ()
+            {
+                contentPanel.Controls.Clear();
+                SyncSubForm ssf = new SyncSubForm(action);
+                ssf.TopLevel = false;
+                //ssf.AutoScroll = true;
+                contentPanel.Controls.Add(ssf);
+                ssf.Show();
+            });
+        }
+
+        private void pLogoutBtn_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
         }
     }
 }

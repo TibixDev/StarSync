@@ -5,7 +5,7 @@
     if (isset($_POST['action'])) {
         $action = escape($_POST['action']);
     }
-    $apiResponse = null;
+    $apiResponse = new stdClass();
     $validAuth = false;
     $currentUser = null;
 
@@ -137,6 +137,7 @@
                 $historyQuery = "SELECT * FROM starsync_filedata WHERE fileOwner = '$currentUser' ORDER BY fileUploadDate DESC";
                 $historyResult = mysqli_query($conn, $historyQuery);
                 while ($row = mysqli_fetch_array($historyResult)) {
+                    $usable['fileID'] = $row['id'];
                     $usable['fileName'] = $row['fileName'];
                     $usable['fileUploadDate'] = $row['fileUploadDate'];
                     $usable['fileModifyDate'] = $row['fileModifyDate'];
@@ -156,9 +157,69 @@
         break;
 
         case "deleteSave":
+            if ($validAuth) {
+                if (!isset($_POST['saveID'])) {
+                    $apiResponse->response = "noSaveID";
+                    $apiResponse->status = "error";
+                }
+                else {
+                    $saveID = escape($_POST['saveID']);
+                    $saveCheckQuery = "SELECT * FROM starsync_filedata WHERE id = '$saveID' AND fileowner = '$currentUser'";
+                    $saveCheckResult = mysqli_query($conn, $saveCheckQuery);
+                    if (mysqli_num_rows($saveCheckResult) > 1) {
+                        $apiResponse->response = "internalError";
+                        $apiResponse->status = "error";
+                    }
+                    else if (mysqli_num_rows($saveCheckResult) == 1) {
+                        $saveRow = mysqli_fetch_array($saveCheckResult);
+                        $saveFileName = $saveRow['fileName'];
+                        $saveDelQuery = "DELETE FROM starsync_filedata WHERE id = '$saveID' AND fileowner = '$currentUser'";
+                        mysqli_query($conn, $saveDelQuery);
+                        unlink("../saveData/$currentUser/$saveFileName");
+                        $apiResponse->response = "Save with ID: '$saveID' has been deleted.";
+                        $apiResponse->status = "success";
+                    }
+                    else {
+                        $apiResponse->response = "notFound";
+                        $apiResponse->status = "error";
+                    }
+                }
+            }
         break;
 
         case "restoreSave":
+            if ($validAuth) {
+                if (!isset($_POST['saveID'])) {
+                    $apiResponse->response = "noSaveID";
+                    $apiResponse->status = "error";
+                }
+                else {
+                    $saveID = escape($_POST['saveID']);
+                    $saveCheckQuery = "SELECT * FROM starsync_filedata WHERE id = '$saveID' AND fileowner = '$currentUser'";
+                    $saveCheckResult = mysqli_query($conn, $saveCheckQuery);
+                    if (mysqli_num_rows($saveCheckResult) > 1) {
+                        $apiResponse->response = "internalError";
+                        $apiResponse->status = "error";
+                    }
+                    else if (mysqli_num_rows($saveCheckResult) == 1) {
+                        date_default_timezone_set('UTC');
+                        $currentDate = date('Y-m-d H:i:s');
+                        $saveRow = mysqli_fetch_array($saveCheckResult);
+                        $saveFileName = $saveRow['fileName'];
+                        $saveRstUDateQuery = "UPDATE starsync_filedata SET fileUploadDate='$currentDate' WHERE id = '$saveID' AND fileowner = '$currentUser'";
+                        $saveRstMDateQuery = "UPDATE starsync_filedata SET fileModifyDate='$currentDate' WHERE id = '$saveID' AND fileowner = '$currentUser'";
+                        touch("../saveData/$currentUser/$saveFileName", $currentDate);
+                        mysqli_query($conn, $saveRstUDateQuery) or die(mysqli_error($conn));
+                        mysqli_query($conn, $saveRstMDateQuery) or die(mysqli_error($conn));
+                        $apiResponse->response = "Save with ID: '$saveID' has been restored as the latest save. (Server-time: $currentDate)";
+                        $apiResponse->status = "success";
+                    }
+                    else {
+                        $apiResponse->response = "notFound";
+                        $apiResponse->status = "error";
+                    }
+                }
+            }
         break;
 
         default: 

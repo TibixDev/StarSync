@@ -39,13 +39,15 @@ namespace StarSync
 
         public class APIHistoryData
         {
+            public string fileID { get; set; }
             public string fileName { get; set; }
             public string fileUploadDate { get; set; }
             public string fileModifyDate { get; set; }
             public string fileOwner { get; set; }
 
-            public APIHistoryData(string fileName, string fileUploadDate, string fileModifyDate, string fileOwner)
+            public APIHistoryData(string fileID, string fileName, string fileUploadDate, string fileModifyDate, string fileOwner)
             {
+                this.fileID = fileID;
                 this.fileName = fileName;
                 this.fileUploadDate = fileUploadDate;
                 this.fileModifyDate = fileModifyDate;
@@ -53,7 +55,7 @@ namespace StarSync
             }
         }
 
-        public static APIData APISimpleRequest(string action, string apiKey = null, string path = null)
+        public static APIData APISimpleRequest(string action, string apiKey = null, string path = null, string saveID = null)
         {
             if (apiKey == null)
             {
@@ -66,6 +68,10 @@ namespace StarSync
             if (path != null)
             {
                 request.AddFile("fileToUpload", path);
+            }
+            else if (saveID != null)
+            {
+                request.AddParameter("saveID", saveID);
             }
             var response = client.Execute(request);
             APIData responseObj = JsonConvert.DeserializeObject<APIData>(response.Content);

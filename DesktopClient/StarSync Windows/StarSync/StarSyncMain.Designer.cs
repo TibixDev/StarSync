@@ -138,6 +138,7 @@
             this.pLogoutBtn.TabIndex = 6;
             this.pLogoutBtn.Text = "Logout";
             this.pLogoutBtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.pLogoutBtn.Click += new System.EventHandler(this.pLogoutBtn_Click);
             // 
             // pWebDashBtn
             // 
