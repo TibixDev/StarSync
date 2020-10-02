@@ -8,12 +8,15 @@ StarSync is an open-source easy to use save management application mainly made f
 It includes a PHP backend, a functional website written in HTML and CSS, and native clients for Windows and Android written in C# and Java respectively.
 
 ## Features
+(**Many of the features have only been implemented in the C# client**)
 - Modern and Elegant UI (✔️)<br>
-- Save Uploading and Downloading (✔️ - 🔨)<br>
-- Save Synchronization (✔️ - 🔨)<br>
-- Automatic Save Synchronization (📅)<br>
-- Compatbility with More Games (📅)<br>
+- Save Uploading and Downloading (✔️)<br>
+- Save Synchronization (✔️)<br>
+- Automatic Save Synchronization (✔️)<br>
 - Save History Viewing (✔️ - 🔨)<br>
+- Save Restoration (❌ - 🔨)
+- Save Deletion (✔️)
+
 
 ## Usage
 - Clone the repository
