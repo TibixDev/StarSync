@@ -78,7 +78,7 @@ namespace StarSync.SubForms
 
         private void RestoreTask(string saveID)
         {
-            Common.APIData restoreResp = Common.APISimpleRequest("restoreSave", null, null, saveID);
+            Common.APIData restoreResp = Common.APISimpleRequest("restoreSave", null, null, saveID, Common.ConvertToSQLDateTime(DateTime.Now));
             if (restoreResp.status == "success")
             {
                 initiatorBaseForm.ExternalSync("restoreSync");
@@ -94,10 +94,14 @@ namespace StarSync.SubForms
             Common.APIData deleteResp = Common.APISimpleRequest("deleteSave", null, null, saveID);
             if (deleteResp.status == "success")
             {
+                MessageBox.Show($"Deletion of save with saveID: {saveID} was successful.");
+                Task historyTask = new Task(() => GetHistoryTask());
+                historyTask.Start();
                 // todo toast notification
             }
             else
             {
+                MessageBox.Show($"An error occured while trying to delete save with saveID: {saveID}. ErrCode: {deleteResp.response}");
                 // todo toast notification
             }
         }

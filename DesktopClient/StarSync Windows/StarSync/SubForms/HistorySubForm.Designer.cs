@@ -35,8 +35,6 @@
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.HistoryTitleLabel = new System.Windows.Forms.Label();
             this.historyGrid = new Guna.UI2.WinForms.Guna2DataGridView();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.fileID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fileUploadDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +42,8 @@
             this.fileOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveRestore = new System.Windows.Forms.DataGridViewImageColumn();
             this.saveDelete = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.historyGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,7 +109,7 @@
             this.historyGrid.RowTemplate.ReadOnly = true;
             this.historyGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.historyGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.historyGrid.Size = new System.Drawing.Size(720, 290);
+            this.historyGrid.Size = new System.Drawing.Size(720, 390);
             this.historyGrid.TabIndex = 2;
             this.historyGrid.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.Default;
             this.historyGrid.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(62)))), ((int)(((byte)(66)))));
@@ -134,20 +134,6 @@
             this.historyGrid.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(62)))), ((int)(((byte)(66)))));
             this.historyGrid.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.historyGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.historyGrid_CellClickHandler);
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "Restore";
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
-            this.dataGridViewImageColumn1.Width = 140;
-            // 
-            // dataGridViewImageColumn2
-            // 
-            this.dataGridViewImageColumn2.HeaderText = "Delete";
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.ReadOnly = true;
-            this.dataGridViewImageColumn2.Width = 140;
             // 
             // fileID
             // 
@@ -203,12 +189,26 @@
             this.saveDelete.Name = "saveDelete";
             this.saveDelete.ReadOnly = true;
             // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "Restore";
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Width = 140;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "Delete";
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.ReadOnly = true;
+            this.dataGridViewImageColumn2.Width = 140;
+            // 
             // HistorySubForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(28)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(750, 360);
+            this.ClientSize = new System.Drawing.Size(750, 460);
             this.Controls.Add(this.historyGrid);
             this.Controls.Add(this.HistoryTitleLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

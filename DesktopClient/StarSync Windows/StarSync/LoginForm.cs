@@ -27,6 +27,7 @@ namespace StarSync
         private void Form1_Load(object sender, EventArgs e)
         {
             // UI OnLoad Configuration
+            gunaWindowAnimate.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
             gt.Interval = 3;
             welcomeLabel.Left = (this.Width - welcomeLabel.Width) / 2;
             titleLabel.Left = (this.Width - titleLabel.Width) / 2;
@@ -73,12 +74,12 @@ namespace StarSync
             }
         }
 
-        private async void APIVerifyTask(string apiKey)
+        private void APIVerifyTask(string apiKey)
         {
             this.BeginInvoke((Action)delegate ()
             {
                 loginBtn.Enabled = false;
-                gt.ShowSync(genericLoading, true, Animation.Scale);
+                gt.ShowSync(genericLoading, true, Animation.HorizSlideAndRotate);
                 if (statusLabel.Visible)
                 {
                     gt.HideSync(statusLabel, true, Animation.Transparent);

@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.windowPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.pAboutBtn = new Guna.UI2.WinForms.Guna2Button();
             this.panelHideBtn = new Guna.UI2.WinForms.Guna2Button();
             this.verLabel = new System.Windows.Forms.Label();
             this.pOptionsBtn = new Guna.UI2.WinForms.Guna2Button();
@@ -54,6 +55,7 @@
             // windowPanel
             // 
             this.windowPanel.BackColor = System.Drawing.Color.Transparent;
+            this.windowPanel.Controls.Add(this.pAboutBtn);
             this.windowPanel.Controls.Add(this.panelHideBtn);
             this.windowPanel.Controls.Add(this.verLabel);
             this.windowPanel.Controls.Add(this.pOptionsBtn);
@@ -68,8 +70,29 @@
             this.windowPanel.Location = new System.Drawing.Point(0, 0);
             this.windowPanel.Name = "windowPanel";
             this.windowPanel.ShadowDecoration.Parent = this.windowPanel;
-            this.windowPanel.Size = new System.Drawing.Size(250, 400);
+            this.windowPanel.Size = new System.Drawing.Size(250, 500);
             this.windowPanel.TabIndex = 2;
+            // 
+            // pAboutBtn
+            // 
+            this.pAboutBtn.CheckedState.Parent = this.pAboutBtn;
+            this.pAboutBtn.CustomImages.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.pAboutBtn.CustomImages.Parent = this.pAboutBtn;
+            this.pAboutBtn.FillColor = System.Drawing.Color.Transparent;
+            this.pAboutBtn.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pAboutBtn.ForeColor = System.Drawing.Color.White;
+            this.pAboutBtn.HoverState.Parent = this.pAboutBtn;
+            this.pAboutBtn.Image = global::StarSync.Properties.Resources.info_icon;
+            this.pAboutBtn.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.pAboutBtn.ImageSize = new System.Drawing.Size(25, 25);
+            this.pAboutBtn.Location = new System.Drawing.Point(0, 270);
+            this.pAboutBtn.Name = "pAboutBtn";
+            this.pAboutBtn.ShadowDecoration.Parent = this.pAboutBtn;
+            this.pAboutBtn.Size = new System.Drawing.Size(250, 45);
+            this.pAboutBtn.TabIndex = 10;
+            this.pAboutBtn.Text = "About";
+            this.pAboutBtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.pAboutBtn.Click += new System.EventHandler(this.pAboutBtn_Click);
             // 
             // panelHideBtn
             // 
@@ -86,6 +109,7 @@
             this.panelHideBtn.TabIndex = 9;
             this.panelHideBtn.Text = "<";
             this.panelHideBtn.UseTransparentBackground = true;
+            this.panelHideBtn.Visible = false;
             this.panelHideBtn.Click += new System.EventHandler(this.panelHideBtn_Click);
             // 
             // verLabel
@@ -93,7 +117,7 @@
             this.verLabel.AutoSize = true;
             this.verLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.verLabel.ForeColor = System.Drawing.Color.White;
-            this.verLabel.Location = new System.Drawing.Point(59, 364);
+            this.verLabel.Location = new System.Drawing.Point(59, 469);
             this.verLabel.Name = "verLabel";
             this.verLabel.Size = new System.Drawing.Size(136, 17);
             this.verLabel.TabIndex = 8;
@@ -118,6 +142,7 @@
             this.pOptionsBtn.TabIndex = 7;
             this.pOptionsBtn.Text = "Options";
             this.pOptionsBtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.pOptionsBtn.Click += new System.EventHandler(this.pOptionsBtn_Click);
             // 
             // pLogoutBtn
             // 
@@ -131,7 +156,7 @@
             this.pLogoutBtn.Image = global::StarSync.Properties.Resources.lock_open;
             this.pLogoutBtn.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.pLogoutBtn.ImageSize = new System.Drawing.Size(25, 25);
-            this.pLogoutBtn.Location = new System.Drawing.Point(0, 270);
+            this.pLogoutBtn.Location = new System.Drawing.Point(0, 315);
             this.pLogoutBtn.Name = "pLogoutBtn";
             this.pLogoutBtn.ShadowDecoration.Parent = this.pLogoutBtn;
             this.pLogoutBtn.Size = new System.Drawing.Size(250, 45);
@@ -270,20 +295,19 @@
             this.contentPanel.Location = new System.Drawing.Point(250, 40);
             this.contentPanel.Name = "contentPanel";
             this.contentPanel.ShadowDecoration.Parent = this.contentPanel;
-            this.contentPanel.Size = new System.Drawing.Size(750, 360);
+            this.contentPanel.Size = new System.Drawing.Size(750, 460);
             this.contentPanel.TabIndex = 10;
             // 
             // gunaWindowAnim
             // 
             this.gunaWindowAnim.AnimationType = Guna.UI2.WinForms.Guna2AnimateWindow.AnimateWindowType.AW_SLIDE;
-            this.gunaWindowAnim.Interval = 1000;
             // 
             // StarSyncMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(28)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(1000, 400);
+            this.ClientSize = new System.Drawing.Size(1000, 500);
             this.Controls.Add(this.contentPanel);
             this.Controls.Add(this.minimizeBtn);
             this.Controls.Add(this.closeBtn);
@@ -316,5 +340,6 @@
         private Guna.UI2.WinForms.Guna2Panel contentPanel;
         private Guna.UI2.WinForms.Guna2Button panelHideBtn;
         private Guna.UI2.WinForms.Guna2AnimateWindow gunaWindowAnim;
+        private Guna.UI2.WinForms.Guna2Button pAboutBtn;
     }
 }

@@ -95,11 +95,23 @@
     <Compile Include="StarSyncMain.Designer.cs">
       <DependentUpon>StarSyncMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubForms\AboutSubform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForms\AboutSubform.Designer.cs">
+      <DependentUpon>AboutSubform.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubForms\HistorySubForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SubForms\HistorySubForm.Designer.cs">
       <DependentUpon>HistorySubForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForms\OptionsSubForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForms\OptionsSubForm.Designer.cs">
+      <DependentUpon>OptionsSubForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SubForms\SyncSubForm.cs">
       <SubType>Form</SubType>
@@ -123,8 +135,14 @@
     <EmbeddedResource Include="StarSyncMain.resx">
       <DependentUpon>StarSyncMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SubForms\AboutSubform.resx">
+      <DependentUpon>AboutSubform.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubForms\HistorySubForm.resx">
       <DependentUpon>HistorySubForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForms\OptionsSubForm.resx">
+      <DependentUpon>OptionsSubForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubForms\SyncSubForm.resx">
       <DependentUpon>SyncSubForm.cs</DependentUpon>
@@ -202,6 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ss_restore_ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

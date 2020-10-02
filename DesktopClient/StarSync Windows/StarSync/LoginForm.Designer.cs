@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
+            this.gunaElipse = new Guna.UI2.WinForms.Guna2Elipse(this.components);
+            this.gunaDrag = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.windowPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.minimizeBtn = new Guna.UI2.WinForms.Guna2CircleButton();
             this.closeBtn = new Guna.UI2.WinForms.Guna2CircleButton();
@@ -42,17 +42,18 @@
             this.genericLoading = new Guna.UI2.WinForms.Guna2CircleProgressBar();
             this.loginBtn = new Guna.UI2.WinForms.Guna2GradientButton();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.guna2ColorTransition1 = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
+            this.gunaColorTransition = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
+            this.gunaWindowAnimate = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
             this.windowPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // guna2Elipse1
+            // gunaElipse
             // 
-            this.guna2Elipse1.TargetControl = this;
+            this.gunaElipse.TargetControl = this;
             // 
-            // guna2DragControl1
+            // gunaDrag
             // 
-            this.guna2DragControl1.TargetControl = this.windowPanel;
+            this.gunaDrag.TargetControl = this.windowPanel;
             // 
             // windowPanel
             // 
@@ -263,14 +264,14 @@
             this.statusLabel.Text = "Login Status";
             this.statusLabel.Visible = false;
             // 
-            // guna2ColorTransition1
+            // gunaColorTransition
             // 
-            this.guna2ColorTransition1.ColorArray = new System.Drawing.Color[] {
+            this.gunaColorTransition.ColorArray = new System.Drawing.Color[] {
         System.Drawing.Color.Red,
         System.Drawing.Color.Blue,
         System.Drawing.Color.Orange};
-            this.guna2ColorTransition1.EndColor = System.Drawing.Color.Crimson;
-            this.guna2ColorTransition1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.gunaColorTransition.EndColor = System.Drawing.Color.Crimson;
+            this.gunaColorTransition.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
             // 
             // LoginForm
             // 
@@ -299,8 +300,8 @@
 
         #endregion
 
-        private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
-        private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
+        private Guna.UI2.WinForms.Guna2Elipse gunaElipse;
+        private Guna.UI2.WinForms.Guna2DragControl gunaDrag;
         private Guna.UI2.WinForms.Guna2GradientPanel windowPanel;
         private System.Windows.Forms.Label welcomeLabel;
         private System.Windows.Forms.Label subtitleLabel;
@@ -312,7 +313,8 @@
         private Guna.UI2.WinForms.Guna2CircleButton closeBtn;
         private Guna.UI2.WinForms.Guna2CircleProgressBar genericLoading;
         private System.Windows.Forms.Label statusLabel;
-        private Guna.UI2.WinForms.Guna2ColorTransition guna2ColorTransition1;
+        private Guna.UI2.WinForms.Guna2ColorTransition gunaColorTransition;
+        private Guna.UI2.WinForms.Guna2AnimateWindow gunaWindowAnimate;
     }
 }
 

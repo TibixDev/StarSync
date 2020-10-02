@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -18,6 +19,7 @@ namespace StarSync
     {
         Guna2Transition gt = new Guna2Transition();
         private string username;
+        Timer autoSyncTimer = new Timer();
         public StarSyncMain(string currentUser)
         {
             InitializeComponent();
@@ -26,10 +28,27 @@ namespace StarSync
 
         private void StarSyncMain_Load(object sender, EventArgs e)
         {
-            
+            gunaWindowAnim.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
             verLabel.Text = $"{username} | Early Alpha 0.2";
             verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
             gt.Interval = 3;
+            autoSyncTimer.Tick += new EventHandler(autoSyncTimer_Tick);
+            AutoSyncValidator();
+        }
+
+        public void AutoSyncValidator()
+        {
+            if (Properties.Settings.Default.autoSync && Properties.Settings.Default.autoSyncInterval != 0)
+            {
+                autoSyncTimer.Stop();
+                autoSyncTimer.Interval = Properties.Settings.Default.autoSyncInterval * 1000;
+                autoSyncTimer.Start();
+            }
+
+            else
+            {
+                autoSyncTimer.Stop();
+            }
         }
 
         private void minimizeBtn_Click(object sender, EventArgs e)
@@ -92,7 +111,7 @@ namespace StarSync
 
         public void ExternalSync(string action)
         {
-            this.BeginInvoke((Action)async delegate ()
+            this.BeginInvoke((Action)delegate ()
             {
                 contentPanel.Controls.Clear();
                 SyncSubForm ssf = new SyncSubForm(action);
@@ -106,6 +125,39 @@ namespace StarSync
         private void pLogoutBtn_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reset();
+        }
+
+        private void pOptionsBtn_Click(object sender, EventArgs e)
+        {
+            contentPanel.Controls.Clear();
+            OptionsSubForm osf = new OptionsSubForm(this);
+            osf.TopLevel = false;
+            contentPanel.Controls.Add(osf);
+            osf.Show();
+        }
+
+        private void pAboutBtn_Click(object sender, EventArgs e)
+        {
+            contentPanel.Controls.Clear();
+            AboutSubform asf = new AboutSubform();
+            asf.TopLevel = false;
+            contentPanel.Controls.Add(asf);
+            asf.Show();
+        }
+
+        private void autoSyncTimer_Tick(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.autoSync)
+            {
+                if (this.WindowState == FormWindowState.Minimized)
+                {
+                    ExternalSync("autoSync");
+                }
+            }
+            else
+            {
+                (sender as Timer).Stop();
+            }
         }
     }
 }

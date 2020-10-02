@@ -10,6 +10,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
+using System.Web.UI.WebControls.WebParts;
 using System.Windows.Forms;
 
 namespace StarSync
@@ -55,7 +56,7 @@ namespace StarSync
             }
         }
 
-        public static APIData APISimpleRequest(string action, string apiKey = null, string path = null, string saveID = null)
+        public static APIData APISimpleRequest(string action, string apiKey = null, string path = null, string saveID = null, string restoreDate = null)
         {
             if (apiKey == null)
             {
@@ -69,9 +70,13 @@ namespace StarSync
             {
                 request.AddFile("fileToUpload", path);
             }
-            else if (saveID != null)
+            if (saveID != null)
             {
                 request.AddParameter("saveID", saveID);
+            }
+            if (restoreDate != null)
+            {
+                request.AddParameter("restoreDate", restoreDate);
             }
             var response = client.Execute(request);
             APIData responseObj = JsonConvert.DeserializeObject<APIData>(response.Content);
