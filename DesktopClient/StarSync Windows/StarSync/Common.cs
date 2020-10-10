@@ -1,8 +1,10 @@
-﻿using Guna.UI2.WinForms.Suite;
+﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms.Suite;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -114,6 +116,34 @@ namespace StarSync
         public static int CompareDateTime(long d1Ticks, long d2Ticks)
         {
             return d1Ticks > d2Ticks ? -1 : d1Ticks < d2Ticks ? 1 : 0;
+        }
+
+        public static void ChangeSubform(Guna2Panel panel, dynamic form)
+        {
+            Form currentForm = (form as Form);
+            panel.Controls.Clear();
+            currentForm.TopLevel = false;
+            panel.Controls.Add(currentForm);
+            currentForm.Show();
+        }
+
+        public static void MainContextConfigurator(NotifyIcon notifyIco, ToolStripItemClickedEventHandler eventHandler)
+        {
+            ContextMenuStrip strip = new ContextMenuStrip();
+            ToolStripLabel titleLabel = new ToolStripLabel("StarSync");
+            titleLabel.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+            strip.Items.Add(titleLabel);
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add("Sync");
+            strip.Items.Add("History");
+            strip.Items.Add("Web Dashboard");
+            strip.Items.Add("Options");
+            strip.Items.Add("About");
+            strip.Items.Add("Logout");
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add("Exit");
+            strip.ItemClicked += eventHandler;
+            notifyIco.ContextMenuStrip = strip;
         }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StarSyncMain));
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.windowPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.pAboutBtn = new Guna.UI2.WinForms.Guna2Button();
@@ -45,6 +46,7 @@
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.contentPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.gunaWindowAnim = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
+            this.ssNotifyIco = new System.Windows.Forms.NotifyIcon(this.components);
             this.windowPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -302,6 +304,12 @@
             // 
             this.gunaWindowAnim.AnimationType = Guna.UI2.WinForms.Guna2AnimateWindow.AnimateWindowType.AW_SLIDE;
             // 
+            // ssNotifyIco
+            // 
+            this.ssNotifyIco.Icon = ((System.Drawing.Icon)(resources.GetObject("ssNotifyIco.Icon")));
+            this.ssNotifyIco.Text = "StarSync";
+            this.ssNotifyIco.DoubleClick += new System.EventHandler(this.ssNotifyIco_DoubleClick);
+            // 
             // StarSyncMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,10 +321,12 @@
             this.Controls.Add(this.closeBtn);
             this.Controls.Add(this.windowPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StarSyncMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StarSyncMain";
             this.Load += new System.EventHandler(this.StarSyncMain_Load);
+            this.Resize += new System.EventHandler(this.StarSyncMain_Resize);
             this.windowPanel.ResumeLayout(false);
             this.windowPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -341,5 +351,6 @@
         private Guna.UI2.WinForms.Guna2Button panelHideBtn;
         private Guna.UI2.WinForms.Guna2AnimateWindow gunaWindowAnim;
         private Guna.UI2.WinForms.Guna2Button pAboutBtn;
+        private System.Windows.Forms.NotifyIcon ssNotifyIco;
     }
 }

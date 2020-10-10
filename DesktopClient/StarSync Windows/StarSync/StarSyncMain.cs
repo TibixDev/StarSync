@@ -28,6 +28,7 @@ namespace StarSync
 
         private void StarSyncMain_Load(object sender, EventArgs e)
         {
+            Common.MainContextConfigurator(ssNotifyIco, new ToolStripItemClickedEventHandler(ssNotifyIco_ItemClickHandler));
             gunaWindowAnim.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
             verLabel.Text = $"{username} | Early Alpha 0.2";
             verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
@@ -91,22 +92,12 @@ namespace StarSync
 
         private void pSyncBtn_Click(object sender, EventArgs e)
         {
-            contentPanel.Controls.Clear();
-            SyncSubForm ssf = new SyncSubForm();
-            ssf.TopLevel = false;
-            //ssf.AutoScroll = true;
-            contentPanel.Controls.Add(ssf);
-            ssf.Show();
+            Common.ChangeSubform(contentPanel, new SyncSubForm(null));
         }
 
         private void pHistoryBtn_Click(object sender, EventArgs e)
         {
-            contentPanel.Controls.Clear();
-            HistorySubForm hsf = new HistorySubForm(this);
-            hsf.TopLevel = false;
-            //ssf.AutoScroll = true;
-            contentPanel.Controls.Add(hsf);
-            hsf.Show();
+            Common.ChangeSubform(contentPanel, new HistorySubForm(this));
         }
 
         public void ExternalSync(string action)
@@ -116,7 +107,6 @@ namespace StarSync
                 contentPanel.Controls.Clear();
                 SyncSubForm ssf = new SyncSubForm(action);
                 ssf.TopLevel = false;
-                //ssf.AutoScroll = true;
                 contentPanel.Controls.Add(ssf);
                 ssf.Show();
             });
@@ -124,25 +114,17 @@ namespace StarSync
 
         private void pLogoutBtn_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reset();
+            Logout();
         }
 
         private void pOptionsBtn_Click(object sender, EventArgs e)
         {
-            contentPanel.Controls.Clear();
-            OptionsSubForm osf = new OptionsSubForm(this);
-            osf.TopLevel = false;
-            contentPanel.Controls.Add(osf);
-            osf.Show();
+            Common.ChangeSubform(contentPanel, new OptionsSubForm(this));
         }
 
         private void pAboutBtn_Click(object sender, EventArgs e)
         {
-            contentPanel.Controls.Clear();
-            AboutSubform asf = new AboutSubform();
-            asf.TopLevel = false;
-            contentPanel.Controls.Add(asf);
-            asf.Show();
+            Common.ChangeSubform(contentPanel, new AboutSubform());
         }
 
         private void autoSyncTimer_Tick(object sender, EventArgs e)
@@ -158,6 +140,67 @@ namespace StarSync
             {
                 (sender as Timer).Stop();
             }
+        }
+
+        private void StarSyncMain_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                ssNotifyIco.Visible = true;
+            }
+            else
+            {
+                this.ShowInTaskbar = true;
+                ssNotifyIco.Visible = false;
+            }
+        }
+
+        private void ssNotifyIco_DoubleClick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void ssNotifyIco_ItemClickHandler(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripItem item = e.ClickedItem;
+            switch (item.Text)
+            {
+                case "Sync":
+                    this.WindowState = FormWindowState.Normal;
+                    Common.ChangeSubform(contentPanel, new SyncSubForm(null));
+                    break;
+                case "History":
+                    this.WindowState = FormWindowState.Normal;
+                    Common.ChangeSubform(contentPanel, new HistorySubForm(this));
+                    break;
+                case "Web Dashboard":
+                    System.Diagnostics.Process.Start(Common.baseUrl);
+                    break;
+                case "Options":
+                    this.WindowState = FormWindowState.Normal;
+                    Common.ChangeSubform(contentPanel, new OptionsSubForm(this));
+                    break;
+                case "About":
+                    this.WindowState = FormWindowState.Normal;
+                    Common.ChangeSubform(contentPanel, new AboutSubform());
+                    break;
+                case "Logout":
+                    Logout();
+                    break;
+                case "Exit":
+                    Application.Exit();
+                    break;
+            }
+        }
+
+        private void Logout()
+        {
+            Properties.Settings.Default.savedApiKey = string.Empty;
+            Properties.Settings.Default.Save();
+            LoginForm lf = new LoginForm();
+            lf.Visible = true;
+            this.Dispose();
         }
     }
 }

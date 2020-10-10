@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.gunaElipse = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.gunaDrag = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.windowPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
@@ -287,9 +288,10 @@
             this.Controls.Add(this.welcomeLabel);
             this.Controls.Add(this.windowPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "StarSync Login";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.windowPanel.ResumeLayout(false);
             this.windowPanel.PerformLayout();
