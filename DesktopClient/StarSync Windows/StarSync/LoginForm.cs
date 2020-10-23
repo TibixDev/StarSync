@@ -79,13 +79,12 @@ namespace StarSync
             this.BeginInvoke((Action)delegate ()
             {
                 loginBtn.Enabled = false;
-                gt.ShowSync(genericLoading, true, Animation.HorizSlideAndRotate);
+                gt.ShowSync(genericLoading, true, Animation.Transparent);
                 if (statusLabel.Visible)
                 {
                     gt.HideSync(statusLabel, true, Animation.Transparent);
                 }
             });
-
 
             Common.APIData objectResp = Common.APISimpleRequest("validateAuth", apiKey);
             APILogonHandler(objectResp, apiKey);

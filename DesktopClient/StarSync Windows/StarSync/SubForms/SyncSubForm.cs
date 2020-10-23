@@ -17,18 +17,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace StarSync
 {
     public partial class SyncSubForm : Form
     {
+        StarSyncMain ssMain;
         private string action = null;
         private string actionKeyWord = null;
         private bool validated;
         Guna2Transition gt = new Guna2Transition();
-        public SyncSubForm(string refererAction = null)
+        public SyncSubForm(StarSyncMain referer_ssMain, string refererAction = null)
         {
             InitializeComponent();
+            ssMain = referer_ssMain;
             action = refererAction;
         }
 
@@ -76,80 +79,94 @@ namespace StarSync
 
         private void syncBtn_Click(object sender, EventArgs e)
         {
-            syncLoading.Visible = true;
-            syncBtn.Enabled = true;
             Task apiSyncTask = new Task(() => SyncTask());
             apiSyncTask.Start();
         }
 
         private void SyncTask()
         {
-            CrossThreadedTextChange(statusLabel, "Getting ready...");
-            SyncConsoleLog($"Masterserver has been set to {Common.baseUrl}.");
-            SyncConsoleLog($"Sending initial sync POST request to masterserver...");
-            DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir)).ToUniversalTime();
-            SyncConsoleLog($"Established local save modify date: {lastWrite}.");
-            CrossThreadedTextChange(statusLabel, "Contacting server...");
-            Common.APIData responseObj = Common.APISimpleRequest("getLatest");
-            SyncConsoleLog($"Received response object from masterserver.");
-
-            if (responseObj.response != "invalidAPIKey")
+            if (Process.GetProcessesByName("Stardew Valley").Length == 0)
             {
-                if (responseObj.modifyDate != null)
+                this.BeginInvoke((Action) delegate
                 {
-                    DateTime lastRemoteWrite = Convert.ToDateTime(responseObj.modifyDate);
-                    SyncConsoleLog($"Established remote save modify date: {lastRemoteWrite}");
-                    int comparisionResult = Common.CompareDateTime(lastWrite.Ticks, lastRemoteWrite.Ticks);
-                    // -1 is local newer, 0 is same as remote source, 1 is remote newer
-                    switch (comparisionResult)
+                    syncLoading.Visible = true;
+                    syncBtn.Enabled = true;
+                });
+                CrossThreadedTextChange(statusLabel, "Getting ready...");
+                SyncConsoleLog($"Masterserver has been set to {Common.baseUrl}.");
+                SyncConsoleLog($"Sending initial sync POST request to masterserver...");
+                DateTime lastWrite = Common.TrimMilliseconds(Common.GetLatestInDirectory(Common.stardewDataDir)).ToUniversalTime();
+                SyncConsoleLog($"Established local save modify date: {lastWrite}.");
+                CrossThreadedTextChange(statusLabel, "Contacting server...");
+                Common.APIData responseObj = Common.APISimpleRequest("getLatest");
+                SyncConsoleLog($"Received response object from masterserver.");
+
+                if (responseObj.response != "invalidAPIKey")
+                {
+                    if (responseObj.modifyDate != null)
                     {
-                        case -1:
-                            SyncConsoleLog("Local save modify date is newer. Proceeding to upload from local source...");
+                        DateTime lastRemoteWrite = Convert.ToDateTime(responseObj.modifyDate);
+                        SyncConsoleLog($"Established remote save modify date: {lastRemoteWrite}");
+                        int comparisionResult = Common.CompareDateTime(lastWrite.Ticks, lastRemoteWrite.Ticks);
+                        // -1 is local newer, 0 is same as remote source, 1 is remote newer
+                        switch (comparisionResult)
+                        {
+                            case -1:
+                                SyncConsoleLog("Local save modify date is newer. Proceeding to upload from local source...");
+                                UploadTask(lastWrite);
+                                CrossThreadedSyncFinish();
+                                break;
+
+                            case 0:
+                                SyncConsoleLog("Local and remote save modify date is the same. Sync completed, no actions required.");
+                                if (action == null)
+                                    CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
+                                else
+                                    CrossThreadedTextChange(statusLabel, $"{actionKeyWord} Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
+                                CrossThreadedSyncFinish();
+                                break;
+
+                            case 1:
+                                SyncConsoleLog("Remote save modify date is newer. Proceeding to download from remote source...");
+                                RetrieveTask(responseObj);
+                                CrossThreadedSyncFinish();
+                                break;
+                        }
+                    }
+
+                    else
+                    {
+                        SyncConsoleLog("The response object doesn't contain any save references, prompting first-time warning...");
+                        DialogResult dialogResult = MessageBox.Show("It looks like you haven't uploaded any saves yet, so here's a warning:\nStarSync is not released yet, so there may be bugs.\nAnything can and will happen. We take no responsibility, so please make sure you have a backup of your saves.\n\nAre you sure you want to continue?", "StarSync Save Sync Subroutine", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            SyncConsoleLog("Prompt agreement received, proceeding to upload...");
                             UploadTask(lastWrite);
-                            CrossThreadedSyncFinish();
-                            break;
+                        }
 
-                        case 0:
-                            SyncConsoleLog("Local and remote save modify date is the same. Sync completed, no actions required.");
-                            if (action == null)
-                                CrossThreadedTextChange(statusLabel, "Sync Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
-                            else
-                                CrossThreadedTextChange(statusLabel, $"{actionKeyWord} Completed!<br><font style='font-size: 12;'>You are already using the latest save.");
+                        else
+                        {
+                            SyncConsoleLog("Prompt has been declined, sync terminated.");
+                            CrossThreadedTextChange(statusLabel, "Sync Cancelled By User");
                             CrossThreadedSyncFinish();
-                            break;
-
-                        case 1:
-                            SyncConsoleLog("Remote save modify date is newer. Proceeding to download from remote source...");
-                            RetrieveTask(responseObj);
-                            CrossThreadedSyncFinish();
-                            break;
+                        }
                     }
                 }
 
                 else
                 {
-                    SyncConsoleLog("The response object doesn't contain any save references, prompting first-time warning...");
-                    DialogResult dialogResult = MessageBox.Show("It looks like you haven't uploaded any saves yet, so here's a warning:\nStarSync is not released yet, so there may be bugs.\nAnything can and will happen. We take no responsibility, so please make sure you have a backup of your saves.\n\nAre you sure you want to continue?", "StarSync Save Sync Subroutine", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        SyncConsoleLog("Prompt agreement received, proceeding to upload...");
-                        UploadTask(lastWrite);
-                    }
-
-                    else
-                    {
-                        SyncConsoleLog("Prompt has been declined, sync terminated.");
-                        CrossThreadedTextChange(statusLabel, "Sync Cancelled By User");
-                        CrossThreadedSyncFinish();
-                    }
+                    SyncConsoleLog("An invalid API key was supplied.");
+                    CrossThreadedTextChange(statusLabel, $"<font style='font-size: 14; color: crimson;'>Sync Failed!<br><b>ERROR:</b> Your API Key is either invalid or has expired.<br></font><font style='font-size: 12;'>Key: {Common.GetCurrentAPIKey()}");
+                    CrossThreadedSyncFinish();
                 }
             }
-
             else
             {
-                SyncConsoleLog("An invalid API key was supplied.");
-                CrossThreadedTextChange(statusLabel, $"<font style='font-size: 14; color: crimson;'>Sync Failed!<br><b>ERROR:</b> Your API Key is either invalid or has expired.<br></font><font style='font-size: 12;'>Key: {Common.GetCurrentAPIKey()}");
-                CrossThreadedSyncFinish();
+                if (action != null || action != string.Empty)
+                    CrossThreadedTextChange(statusLabel, $"<font>{action} Failed!</font><br><font style='font-size: 12;'>Close Stardew Valley before syncing.");
+                else
+                    CrossThreadedTextChange(statusLabel, $"<font>Sync Failed!</font><br><font style='font-size: 12;'>Close Stardew Valley before syncing.");
+                SyncConsoleLog($"Sync Failed, because Stardew Valley is already running.");
             }
         }
 
@@ -231,6 +248,8 @@ namespace StarSync
            {
                gt.HideSync(syncLoading, false, Animation.Transparent);
                syncBtn.Enabled = true;
+               if (action == "autoSync")
+                   ssMain.WindowState = FormWindowState.Minimized;
            });
         }
 
@@ -238,7 +257,7 @@ namespace StarSync
         {
             if (validated && action != null)
             {
-                SyncConsoleLog($"An external request for {action} has been received. Initiating...");
+                SyncConsoleLog($"An external {action} request was received on {DateTime.Now}. Initiating...");
                 switch (action)
                 {
                     case "restoreSync":
@@ -250,7 +269,6 @@ namespace StarSync
                         break;
 
                     case "autoSync":
-                        SyncConsoleLog($"The external AutoSync request was received on {DateTime.Now}.");
                         actionKeyWord = "AutoSync";
                         syncLoading.Visible = true;
                         syncBtn.Enabled = true;

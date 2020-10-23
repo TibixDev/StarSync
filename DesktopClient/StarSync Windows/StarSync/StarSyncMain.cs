@@ -30,7 +30,7 @@ namespace StarSync
         {
             Common.MainContextConfigurator(ssNotifyIco, new ToolStripItemClickedEventHandler(ssNotifyIco_ItemClickHandler));
             gunaWindowAnim.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
-            verLabel.Text = $"{username} | Early Alpha 0.2";
+            verLabel.Text = $"{username} | Early Alpha";
             verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
             gt.Interval = 3;
             autoSyncTimer.Tick += new EventHandler(autoSyncTimer_Tick);
@@ -67,29 +67,6 @@ namespace StarSync
             System.Diagnostics.Process.Start(Common.baseUrl);
         }
 
-        private void panelHideBtn_Click(object sender, EventArgs e)
-        {
-            if (windowPanel.Visible)
-            {
-                gt.HideSync(windowPanel, false, Animation.HorizSlide);
-                panelHideBtn.Parent = this;
-                panelHideBtn.Top += windowPanel.Top;
-                panelHideBtn.Left = 0;
-                panelHideBtn.Text = ">";
-                //contentPanel.Left = 0;
-                //contentPanel.Size = new Size(800, 370);
-            }
-
-            else
-            {
-                panelHideBtn.Parent = windowPanel;
-                panelHideBtn.Top -= windowPanel.Top;
-                panelHideBtn.Left = 220;
-                gt.ShowSync(windowPanel, false, Animation.HorizSlide);
-                panelHideBtn.Text = "<";
-            }
-        }
-
         private void pSyncBtn_Click(object sender, EventArgs e)
         {
             Common.ChangeSubform(contentPanel, new SyncSubForm(null));
@@ -105,7 +82,7 @@ namespace StarSync
             this.BeginInvoke((Action)delegate ()
             {
                 contentPanel.Controls.Clear();
-                SyncSubForm ssf = new SyncSubForm(action);
+                SyncSubForm ssf = new SyncSubForm(this, action);
                 ssf.TopLevel = false;
                 contentPanel.Controls.Add(ssf);
                 ssf.Show();
@@ -197,6 +174,7 @@ namespace StarSync
         private void Logout()
         {
             Properties.Settings.Default.savedApiKey = string.Empty;
+            Properties.Settings.Default.currentApiKey = string.Empty;
             Properties.Settings.Default.Save();
             LoginForm lf = new LoginForm();
             lf.Visible = true;

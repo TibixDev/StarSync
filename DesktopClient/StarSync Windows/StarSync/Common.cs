@@ -19,7 +19,7 @@ namespace StarSync
 {
     class Common
     {
-        public static readonly string baseUrl = "http://starsync.000webhostapp.com/";
+        public static string baseUrl = "http://starsync.000webhostapp.com/";
         public static readonly string appdataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public static readonly string starSyncDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StarSync";
         public static readonly string stardewDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StardewValley\Saves";

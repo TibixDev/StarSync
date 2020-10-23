@@ -33,7 +33,6 @@
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.windowPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.pAboutBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.panelHideBtn = new Guna.UI2.WinForms.Guna2Button();
             this.verLabel = new System.Windows.Forms.Label();
             this.pOptionsBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pLogoutBtn = new Guna.UI2.WinForms.Guna2Button();
@@ -58,7 +57,6 @@
             // 
             this.windowPanel.BackColor = System.Drawing.Color.Transparent;
             this.windowPanel.Controls.Add(this.pAboutBtn);
-            this.windowPanel.Controls.Add(this.panelHideBtn);
             this.windowPanel.Controls.Add(this.verLabel);
             this.windowPanel.Controls.Add(this.pOptionsBtn);
             this.windowPanel.Controls.Add(this.pLogoutBtn);
@@ -95,24 +93,6 @@
             this.pAboutBtn.Text = "About";
             this.pAboutBtn.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.pAboutBtn.Click += new System.EventHandler(this.pAboutBtn_Click);
-            // 
-            // panelHideBtn
-            // 
-            this.panelHideBtn.CheckedState.Parent = this.panelHideBtn;
-            this.panelHideBtn.CustomImages.Parent = this.panelHideBtn;
-            this.panelHideBtn.FillColor = System.Drawing.Color.Transparent;
-            this.panelHideBtn.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelHideBtn.ForeColor = System.Drawing.Color.White;
-            this.panelHideBtn.HoverState.Parent = this.panelHideBtn;
-            this.panelHideBtn.Location = new System.Drawing.Point(220, 20);
-            this.panelHideBtn.Name = "panelHideBtn";
-            this.panelHideBtn.ShadowDecoration.Parent = this.panelHideBtn;
-            this.panelHideBtn.Size = new System.Drawing.Size(30, 30);
-            this.panelHideBtn.TabIndex = 9;
-            this.panelHideBtn.Text = "<";
-            this.panelHideBtn.UseTransparentBackground = true;
-            this.panelHideBtn.Visible = false;
-            this.panelHideBtn.Click += new System.EventHandler(this.panelHideBtn_Click);
             // 
             // verLabel
             // 
@@ -324,7 +304,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StarSyncMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "StarSyncMain";
+            this.Text = "StarSync";
             this.Load += new System.EventHandler(this.StarSyncMain_Load);
             this.Resize += new System.EventHandler(this.StarSyncMain_Resize);
             this.windowPanel.ResumeLayout(false);
@@ -348,7 +328,6 @@
         private System.Windows.Forms.Label verLabel;
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
         private Guna.UI2.WinForms.Guna2Panel contentPanel;
-        private Guna.UI2.WinForms.Guna2Button panelHideBtn;
         private Guna.UI2.WinForms.Guna2AnimateWindow gunaWindowAnim;
         private Guna.UI2.WinForms.Guna2Button pAboutBtn;
         private System.Windows.Forms.NotifyIcon ssNotifyIco;
