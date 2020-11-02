@@ -38,12 +38,6 @@ namespace StarSync.SubForms
                 historyGrid.AutoGenerateColumns = true;
                 historyGrid.DataSource = history;
                 SetColSizes();
-                /*string final = "Save Data ID-s:\n\n";
-                foreach (Common.APIHistoryData data in history)
-                {
-                    final += $"ID FOR {data.fileName}: {data.fileID}\n";
-                }
-                MessageBox.Show(final);*/
             });
         }
 
