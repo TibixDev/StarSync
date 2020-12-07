@@ -15,4 +15,21 @@ function escape($string) {
 function sortTime($time1, $time2) {
     return strtotime($time1) - strtotime($time2);
 }
+
+function incrementSaveCount($user, $increment) {
+    $conn = new mysqli('localhost', 'id12642094_starsync_admin', 'n0p3', 'id12642094_starsync_members');
+    if ($increment) {
+        $query = "UPDATE starsync_db SET saveCount=saveCount+1 WHERE userAccount='$user'";
+        mysqli_query($conn, $query);
+    } else {
+        $query = "UPDATE starsync_db SET saveCount=saveCount-1 WHERE userAccount='$user'";
+        mysqli_query($conn, $query);
+    }
+}
+
+function incrementSyncCount($user) {
+    $conn = new mysqli('localhost', 'id12642094_starsync_admin', 'n0p3', 'id12642094_starsync_members');
+    $query = "UPDATE starsync_db SET syncCount=syncCount+1 WHERE userAccount='$user'";
+    mysqli_query($conn, $query);
+}
 ?>

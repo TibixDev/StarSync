@@ -1,9 +1,15 @@
 <?php
 session_start();
+include_once '../constants.php';
 
 if(!isset($_SESSION['username'])) {
     header('location:/login.php');
 }
+$user = $_SESSION['username'];
+
+$userQuery = "SELECT * FROM starsync_db WHERE userAccount = '$user'";
+$userQueryResult = mysqli_query($conn, $userQuery);
+$userDataRow = mysqli_fetch_array($userQueryResult);
 ?>
 
 <html>
@@ -48,13 +54,13 @@ if(!isset($_SESSION['username'])) {
         <div class="profileContainer">
             <div class="profileHeader pt-5 text-center">
                 <img src="../assets/ss_profile_ico.png" id="pic" class="pt-2" alt="User Icon"></img>
-                <h1 class="pt-2"><?php echo $_SESSION['username'];?></h1>
+                <h1 class="pt-2"><?php echo $user;?></h1>
             </div>
             <div class="row pt-3">
                 <div class="col text-right">
-                    <h2 class="text-right">Registered On: 2020/8/20</h2>
-                    <h2 class="text-right">Saves Upload: 14</h2>
-                    <h2 class="text-right">Times Synced: 200</h2>
+                    <h2 class="text-right">Registered On: <?php echo $userDataRow["regDate"];?></h2>
+                    <h2 class="text-right">Saves Upload: <?php echo $userDataRow["saveCount"];?></h2>
+                    <h2 class="text-right">Times Synced: <?php echo $userDataRow["syncCount"];?></h2>
                 </div>
                 <div id="sep" class="mx-1">
                 </div>

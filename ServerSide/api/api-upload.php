@@ -41,6 +41,7 @@ function apiUpload($user, $file, $uploadDate, $modifiedDate, $conn) {
     if ($uploadOk == 1) {
         if (move_uploaded_file($file_tmp, $target_file)) {
             mysqli_query($conn, $saveQuery) or die(mysqli_error($conn));
+            incrementSaveCount($user, true);
             $apiResponse->response = "The file " . $orig_name . " has been uploaded.";
             $apiResponse->status = "success";
             $finalResp = json_encode($apiResponse);

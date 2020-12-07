@@ -75,6 +75,7 @@
                         $latestURL = $fileListRow["fileName"];
                         $latestUploadDate = $fileListRow["fileUploadDate"];
                         $latestModifyDate = $fileListRow["fileModifyDate"];
+                        incrementSyncCount($currentUser);
                         $apiResponse->response = $latestURL;
                         $apiResponse->uploadDate = $latestUploadDate;
                         $apiResponse->modifyDate = $latestModifyDate;
@@ -97,6 +98,7 @@
                 }
                 $latestRow = mysqli_fetch_assoc($fileListResult);
                 $latestFile = $latestRow["fileName"];
+                incrementSyncCount($currentUser);
                 $apiResponse->response = $latestFile;
                 $apiResponse->status = "success";
             }
@@ -176,6 +178,7 @@
                         $saveDelQuery = "DELETE FROM starsync_filedata WHERE id = '$saveID' AND fileowner = '$currentUser'";
                         mysqli_query($conn, $saveDelQuery);
                         unlink("../saveData/$currentUser/$saveFileName");
+                        incrementSaveCount($currentUser, false);
                         $apiResponse->response = "Save with ID: '$saveID' has been deleted.";
                         $apiResponse->status = "success";
                     }

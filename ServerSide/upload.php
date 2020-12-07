@@ -42,6 +42,7 @@ if ($uploadOk == 0) {
 } else { 
     if (move_uploaded_file($file_tmp, $target_file)) {
         mysqli_query($conn, $saveQuery) or die(mysqli_error($conn));
+        incrementSaveCount($username, true);
         $messageID = "uplSuccess";
         redirect($messageID);
     }
