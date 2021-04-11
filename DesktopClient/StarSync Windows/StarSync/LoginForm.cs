@@ -1,24 +1,18 @@
-﻿using Guna.UI2.AnimatorNS;
-using Guna.UI2.WinForms;
-using Newtonsoft.Json;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using Guna.UI2.AnimatorNS;
+using Guna.UI2.WinForms;
+using StarSync.Properties;
 
 namespace StarSync
 {
     public partial class LoginForm : Form
     {
-        private Guna2Transition gt = new Guna2Transition();
+        private readonly Guna2Transition gt = new Guna2Transition();
+
         public LoginForm()
         {
             InitializeComponent();
@@ -29,24 +23,21 @@ namespace StarSync
             // UI OnLoad Configuration
             gunaWindowAnimate.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
             gt.Interval = 3;
-            welcomeLabel.Left = (this.Width - welcomeLabel.Width) / 2;
-            titleLabel.Left = (this.Width - titleLabel.Width) / 2;
-            genericLoading.Left = (this.Width - genericLoading.Width) / 2;
-            apiKeyBox.PlaceholderText = "StarSync API Key";
+            //welcomeLabel.Left = (Width - welcomeLabel.Width) / 2;
+            titleLabel.Left = (Width - titleLabel.Width) / 2;
+            genericLoading.Left = (Width - genericLoading.Width) / 2;
+            //apiKeyBox.PlaceholderText = "StarSync API Key";
 
             // AutoLogin on RememberMe
-            if (Properties.Settings.Default.savedApiKey != string.Empty && Properties.Settings.Default.rememberMe == true)
+            if (Settings.Default.savedApiKey != string.Empty && Settings.Default.savedHost != string.Empty && Settings.Default.rememberMe)
             {
-                Task verifyTask = new Task(() => APIVerifyTask(Properties.Settings.Default.savedApiKey));
+                Common.baseUrl = Settings.Default.savedHost;
+                var verifyTask = new Task(() => APIVerifyTask(Settings.Default.savedApiKey, Settings.Default.savedHost));
                 verifyTask.Start();
             }
 
             // Folder Structure Setup
-            if (!Directory.Exists(Common.starSyncDataDir))
-            {
-                Directory.CreateDirectory(Common.starSyncDataDir);
-            }
-
+            if (!Directory.Exists(Common.starSyncDataDir)) Directory.CreateDirectory(Common.starSyncDataDir);
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
@@ -56,7 +47,7 @@ namespace StarSync
 
         private void minimizeBtn_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
         }
 
         private void loginBtn_Click(object sender, EventArgs e)
@@ -67,79 +58,84 @@ namespace StarSync
                 apiKeyBox.ShadowDecoration.Color = Color.Crimson;
             }
 
+            if (hostURIBox.Text == string.Empty)
+            {
+                hostURIBox.BorderColor = Color.Crimson;
+                hostURIBox.ShadowDecoration.Color = Color.Crimson;
+            }
+
             else
             {
-                Task verifyTask = new Task(() => APIVerifyTask(apiKeyBox.Text));
+                Common.baseUrl = hostURIBox.Text;
+                var verifyTask = new Task(() => APIVerifyTask(apiKeyBox.Text, hostURIBox.Text));
                 verifyTask.Start();
             }
         }
 
-        private void APIVerifyTask(string apiKey)
+        private void APIVerifyTask(string apiKey, string host)
         {
-            this.BeginInvoke((Action)delegate ()
+            BeginInvoke((Action) delegate
             {
                 loginBtn.Enabled = false;
                 gt.ShowSync(genericLoading, true, Animation.Transparent);
-                if (statusLabel.Visible)
-                {
-                    gt.HideSync(statusLabel, true, Animation.Transparent);
-                }
+                if (statusLabel.Visible) gt.HideSync(statusLabel, true, Animation.Transparent);
             });
 
-            Common.APIData objectResp = Common.APISimpleRequest("validateAuth", apiKey);
-            APILogonHandler(objectResp, apiKey);
+            var objectResp = Common.APISimpleRequest("validateAuth", apiKey);
+            APILogonHandler(objectResp, apiKey, host);
         }
 
-        private async void APILogonHandler(Common.APIData logonResponse, string apiKey)
+        private async void APILogonHandler(Common.APIData logonResponse, string apiKey, string host)
         {
             if (logonResponse.status == "success")
             {
                 if (rememberMeBox.Checked)
                 {
-                    Properties.Settings.Default.savedApiKey = apiKey;
-                    Properties.Settings.Default.rememberMe = true;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.savedApiKey = apiKey;
+                    Settings.Default.savedHost = Common.baseUrl;
+                    Settings.Default.rememberMe = true;
+                    Settings.Default.Save();
                 }
 
-                Properties.Settings.Default.currentApiKey = apiKey;
-                Properties.Settings.Default.currentUser = logonResponse.response;
+                Settings.Default.currentApiKey = apiKey;
+                Settings.Default.currentUser = logonResponse.response;
 
-                this.BeginInvoke((Action)delegate ()
+                BeginInvoke((Action) delegate
                 {
                     gt.HideSync(loginBtn, true, Animation.Scale);
                     statusLabel.Text = $"Welcome aboard, {logonResponse.response}!";
-                    statusLabel.Left = (this.Width - statusLabel.Width) / 2;
+                    statusLabel.Left = (Width - statusLabel.Width) / 2;
                     gt.ShowSync(statusLabel, false, Animation.Transparent);
-                    this.Height = this.Height - 55;
+                    Height = Height - 55;
                 });
 
                 await Task.Delay(1500);
 
-                this.BeginInvoke((Action)delegate ()
+                BeginInvoke((Action) delegate
                 {
                     gt.HideSync(statusLabel, false, Animation.Transparent);
-                    statusLabel.Text = $"Enhancing your experience...";
-                    statusLabel.Left = (this.Width - statusLabel.Width) / 2;
+                    statusLabel.Text = "Enhancing your experience...";
+                    statusLabel.Left = (Width - statusLabel.Width) / 2;
                     gt.ShowSync(statusLabel, false, Animation.Transparent);
                 });
 
                 await Task.Delay(1000);
 
-                this.BeginInvoke((Action)delegate ()
+                BeginInvoke((Action) delegate
                 {
-                    StarSyncMain ssMain = new StarSyncMain(logonResponse.response);
+                    var ssMain = new StarSyncMain(logonResponse.response);
                     ssMain.Show();
-                    this.Hide();
+                    Hide();
                 });
             }
 
             else
             {
-                this.BeginInvoke((Action)delegate ()
+                BeginInvoke((Action) delegate
                 {
                     gt.HideSync(genericLoading, false, Animation.Scale);
                     statusLabel.Text = "Login failed!";
-                    statusLabel.Left = (this.Width - statusLabel.Width) / 2;
+                    statusLabel.Left = (Width - statusLabel.Width) / 2;
                     gt.ShowSync(statusLabel, false, Animation.Transparent);
                     loginBtn.Enabled = true;
                 });
@@ -148,7 +144,8 @@ namespace StarSync
 
         private void apiKeyBox_MouseClick(object sender, MouseEventArgs e)
         {
-            if (apiKeyBox.BorderColor != Color.FromArgb(116, 116, 191) || apiKeyBox.ShadowDecoration.Color != Color.FromArgb(116, 116, 191))
+            if (apiKeyBox.BorderColor != Color.FromArgb(116, 116, 191) ||
+                apiKeyBox.ShadowDecoration.Color != Color.FromArgb(116, 116, 191))
             {
                 apiKeyBox.BorderColor = Color.FromArgb(116, 116, 191);
                 apiKeyBox.ShadowDecoration.Color = Color.FromArgb(116, 116, 191);

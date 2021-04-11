@@ -1,25 +1,18 @@
-﻿using Guna.UI2.AnimatorNS;
-using Guna.UI2.WinForms;
-using StarSync.SubForms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
+using Guna.UI2.WinForms;
+using StarSync.Properties;
+using StarSync.SubForms;
 
 namespace StarSync
 {
     public partial class StarSyncMain : Form
     {
-        Guna2Transition gt = new Guna2Transition();
-        private string username;
-        Timer autoSyncTimer = new Timer();
+        private readonly Timer autoSyncTimer = new Timer();
+        private readonly Guna2Transition gt = new Guna2Transition();
+        private readonly string username;
+
         public StarSyncMain(string currentUser)
         {
             InitializeComponent();
@@ -28,21 +21,21 @@ namespace StarSync
 
         private void StarSyncMain_Load(object sender, EventArgs e)
         {
-            Common.MainContextConfigurator(ssNotifyIco, new ToolStripItemClickedEventHandler(ssNotifyIco_ItemClickHandler));
+            Common.MainContextConfigurator(ssNotifyIco, ssNotifyIco_ItemClickHandler);
             gunaWindowAnim.SetAnimateWindow(this, Guna2AnimateWindow.AnimateWindowType.AW_BLEND, 200);
             verLabel.Text = $"{username} | Early Alpha";
             verLabel.Left = (windowPanel.Width - verLabel.Width) / 2;
             gt.Interval = 3;
-            autoSyncTimer.Tick += new EventHandler(autoSyncTimer_Tick);
+            autoSyncTimer.Tick += autoSyncTimer_Tick;
             AutoSyncValidator();
         }
 
         public void AutoSyncValidator()
         {
-            if (Properties.Settings.Default.autoSync && Properties.Settings.Default.autoSyncInterval != 0)
+            if (Settings.Default.autoSync && Settings.Default.autoSyncInterval != 0)
             {
                 autoSyncTimer.Stop();
-                autoSyncTimer.Interval = Properties.Settings.Default.autoSyncInterval * 1000;
+                autoSyncTimer.Interval = Settings.Default.autoSyncInterval * 1000;
                 autoSyncTimer.Start();
             }
 
@@ -54,7 +47,7 @@ namespace StarSync
 
         private void minimizeBtn_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
@@ -64,7 +57,7 @@ namespace StarSync
 
         private void pWebDashBtn_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Common.baseUrl);
+            Process.Start(Common.baseUrl);
         }
 
         private void pSyncBtn_Click(object sender, EventArgs e)
@@ -79,10 +72,10 @@ namespace StarSync
 
         public void ExternalSync(string action)
         {
-            this.BeginInvoke((Action)delegate ()
+            BeginInvoke((Action) delegate
             {
                 contentPanel.Controls.Clear();
-                SyncSubForm ssf = new SyncSubForm(this, action);
+                var ssf = new SyncSubForm(this, action);
                 ssf.TopLevel = false;
                 contentPanel.Controls.Add(ssf);
                 ssf.Show();
@@ -106,12 +99,9 @@ namespace StarSync
 
         private void autoSyncTimer_Tick(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.autoSync)
+            if (Settings.Default.autoSync)
             {
-                if (this.WindowState == FormWindowState.Minimized)
-                {
-                    ExternalSync("autoSync");
-                }
+                if (WindowState == FormWindowState.Minimized) ExternalSync("autoSync");
             }
             else
             {
@@ -121,45 +111,45 @@ namespace StarSync
 
         private void StarSyncMain_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                this.ShowInTaskbar = false;
+                ShowInTaskbar = false;
                 ssNotifyIco.Visible = true;
             }
             else
             {
-                this.ShowInTaskbar = true;
+                ShowInTaskbar = true;
                 ssNotifyIco.Visible = false;
             }
         }
 
         private void ssNotifyIco_DoubleClick(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Normal;
+            WindowState = FormWindowState.Normal;
         }
 
         private void ssNotifyIco_ItemClickHandler(object sender, ToolStripItemClickedEventArgs e)
         {
-            ToolStripItem item = e.ClickedItem;
+            var item = e.ClickedItem;
             switch (item.Text)
             {
                 case "Sync":
-                    this.WindowState = FormWindowState.Normal;
+                    WindowState = FormWindowState.Normal;
                     Common.ChangeSubform(contentPanel, new SyncSubForm(null));
                     break;
                 case "History":
-                    this.WindowState = FormWindowState.Normal;
+                    WindowState = FormWindowState.Normal;
                     Common.ChangeSubform(contentPanel, new HistorySubForm(this));
                     break;
                 case "Web Dashboard":
-                    System.Diagnostics.Process.Start(Common.baseUrl);
+                    Process.Start(Common.baseUrl);
                     break;
                 case "Options":
-                    this.WindowState = FormWindowState.Normal;
+                    WindowState = FormWindowState.Normal;
                     Common.ChangeSubform(contentPanel, new OptionsSubForm(this));
                     break;
                 case "About":
-                    this.WindowState = FormWindowState.Normal;
+                    WindowState = FormWindowState.Normal;
                     Common.ChangeSubform(contentPanel, new AboutSubform());
                     break;
                 case "Logout":
@@ -173,12 +163,12 @@ namespace StarSync
 
         private void Logout()
         {
-            Properties.Settings.Default.savedApiKey = string.Empty;
-            Properties.Settings.Default.currentApiKey = string.Empty;
-            Properties.Settings.Default.Save();
-            LoginForm lf = new LoginForm();
+            Settings.Default.savedApiKey = string.Empty;
+            Settings.Default.currentApiKey = string.Empty;
+            Settings.Default.Save();
+            var lf = new LoginForm();
             lf.Visible = true;
-            this.Dispose();
+            Dispose();
         }
     }
 }

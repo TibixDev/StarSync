@@ -37,7 +37,7 @@
             this.closeBtn = new Guna.UI2.WinForms.Guna2CircleButton();
             this.subtitleLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
-            this.welcomeLabel = new System.Windows.Forms.Label();
+            this.hostLabel = new System.Windows.Forms.Label();
             this.apiKeyBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.rememberMeBox = new Guna.UI2.WinForms.Guna2CheckBox();
             this.genericLoading = new Guna.UI2.WinForms.Guna2CircleProgressBar();
@@ -45,6 +45,8 @@
             this.statusLabel = new System.Windows.Forms.Label();
             this.gunaColorTransition = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
             this.gunaWindowAnimate = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
+            this.hostURIBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.windowPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -137,19 +139,18 @@
             this.titleLabel.TabIndex = 2;
             this.titleLabel.Text = "StarSync";
             // 
-            // welcomeLabel
+            // hostLabel
             // 
-            this.welcomeLabel.AutoSize = true;
-            this.welcomeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.welcomeLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.welcomeLabel.ForeColor = System.Drawing.Color.White;
-            this.welcomeLabel.Location = new System.Drawing.Point(29, 112);
-            this.welcomeLabel.Name = "welcomeLabel";
-            this.welcomeLabel.Size = new System.Drawing.Size(379, 75);
-            this.welcomeLabel.TabIndex = 4;
-            this.welcomeLabel.Text = "Welcome! To use StarSync Desktop you are\r\ngoing to need an API Key.\r\nPlease enter" +
-    " it below.\r\n";
-            this.welcomeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.hostLabel.AutoSize = true;
+            this.hostLabel.BackColor = System.Drawing.Color.Transparent;
+            this.hostLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hostLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.hostLabel.Location = new System.Drawing.Point(18, 105);
+            this.hostLabel.Name = "hostLabel";
+            this.hostLabel.Size = new System.Drawing.Size(106, 21);
+            this.hostLabel.TabIndex = 4;
+            this.hostLabel.Text = "StarSync Host";
+            this.hostLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // apiKeyBox
             // 
@@ -169,12 +170,12 @@
             this.apiKeyBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
             this.apiKeyBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(237)))));
             this.apiKeyBox.HoverState.Parent = this.apiKeyBox;
-            this.apiKeyBox.Location = new System.Drawing.Point(23, 204);
+            this.apiKeyBox.Location = new System.Drawing.Point(22, 219);
             this.apiKeyBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.apiKeyBox.Name = "apiKeyBox";
             this.apiKeyBox.PasswordChar = '*';
             this.apiKeyBox.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
-            this.apiKeyBox.PlaceholderText = "StarSync API Key";
+            this.apiKeyBox.PlaceholderText = "";
             this.apiKeyBox.SelectedText = "";
             this.apiKeyBox.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
             this.apiKeyBox.ShadowDecoration.Enabled = true;
@@ -194,7 +195,7 @@
             this.rememberMeBox.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.rememberMeBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rememberMeBox.ForeColor = System.Drawing.Color.White;
-            this.rememberMeBox.Location = new System.Drawing.Point(162, 250);
+            this.rememberMeBox.Location = new System.Drawing.Point(162, 277);
             this.rememberMeBox.Name = "rememberMeBox";
             this.rememberMeBox.Size = new System.Drawing.Size(114, 21);
             this.rememberMeBox.TabIndex = 6;
@@ -212,7 +213,7 @@
             this.genericLoading.BackColor = System.Drawing.Color.Transparent;
             this.genericLoading.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(43)))), ((int)(((byte)(46)))));
             this.genericLoading.FillThickness = 10;
-            this.genericLoading.Location = new System.Drawing.Point(173, 294);
+            this.genericLoading.Location = new System.Drawing.Point(173, 337);
             this.genericLoading.Name = "genericLoading";
             this.genericLoading.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
             this.genericLoading.ProgressColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(138)))), ((int)(((byte)(199)))));
@@ -240,7 +241,7 @@
             this.loginBtn.ForeColor = System.Drawing.Color.White;
             this.loginBtn.HoverState.Parent = this.loginBtn;
             this.loginBtn.Image = global::StarSync.Properties.Resources.login_key_icon;
-            this.loginBtn.Location = new System.Drawing.Point(125, 421);
+            this.loginBtn.Location = new System.Drawing.Point(125, 464);
             this.loginBtn.Name = "loginBtn";
             this.loginBtn.ShadowDecoration.BorderRadius = 21;
             this.loginBtn.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
@@ -258,7 +259,7 @@
             this.statusLabel.BackColor = System.Drawing.Color.Transparent;
             this.statusLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusLabel.ForeColor = System.Drawing.Color.Transparent;
-            this.statusLabel.Location = new System.Drawing.Point(162, 391);
+            this.statusLabel.Location = new System.Drawing.Point(162, 434);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(114, 25);
             this.statusLabel.TabIndex = 9;
@@ -274,18 +275,65 @@
             this.gunaColorTransition.EndColor = System.Drawing.Color.Crimson;
             this.gunaColorTransition.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
             // 
+            // hostURIBox
+            // 
+            this.hostURIBox.Animated = true;
+            this.hostURIBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.hostURIBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.hostURIBox.DefaultText = "";
+            this.hostURIBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.hostURIBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.hostURIBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.hostURIBox.DisabledState.Parent = this.hostURIBox;
+            this.hostURIBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.hostURIBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(43)))), ((int)(((byte)(46)))));
+            this.hostURIBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.hostURIBox.FocusedState.Parent = this.hostURIBox;
+            this.hostURIBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hostURIBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.hostURIBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(237)))));
+            this.hostURIBox.HoverState.Parent = this.hostURIBox;
+            this.hostURIBox.Location = new System.Drawing.Point(22, 130);
+            this.hostURIBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.hostURIBox.Name = "hostURIBox";
+            this.hostURIBox.PasswordChar = '\0';
+            this.hostURIBox.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.hostURIBox.PlaceholderText = "";
+            this.hostURIBox.SelectedText = "";
+            this.hostURIBox.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.hostURIBox.ShadowDecoration.Enabled = true;
+            this.hostURIBox.ShadowDecoration.Parent = this.hostURIBox;
+            this.hostURIBox.Size = new System.Drawing.Size(391, 39);
+            this.hostURIBox.TabIndex = 10;
+            this.hostURIBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(116)))), ((int)(((byte)(191)))));
+            this.label1.Location = new System.Drawing.Point(18, 194);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(126, 21);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "StarSync API Key";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(28)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(435, 500);
+            this.ClientSize = new System.Drawing.Size(435, 545);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.hostURIBox);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.genericLoading);
             this.Controls.Add(this.loginBtn);
             this.Controls.Add(this.rememberMeBox);
             this.Controls.Add(this.apiKeyBox);
-            this.Controls.Add(this.welcomeLabel);
+            this.Controls.Add(this.hostLabel);
             this.Controls.Add(this.windowPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -305,7 +353,7 @@
         private Guna.UI2.WinForms.Guna2Elipse gunaElipse;
         private Guna.UI2.WinForms.Guna2DragControl gunaDrag;
         private Guna.UI2.WinForms.Guna2GradientPanel windowPanel;
-        private System.Windows.Forms.Label welcomeLabel;
+        private System.Windows.Forms.Label hostLabel;
         private System.Windows.Forms.Label subtitleLabel;
         private System.Windows.Forms.Label titleLabel;
         private Guna.UI2.WinForms.Guna2TextBox apiKeyBox;
@@ -317,6 +365,8 @@
         private System.Windows.Forms.Label statusLabel;
         private Guna.UI2.WinForms.Guna2ColorTransition gunaColorTransition;
         private Guna.UI2.WinForms.Guna2AnimateWindow gunaWindowAnimate;
+        private Guna.UI2.WinForms.Guna2TextBox hostURIBox;
+        private System.Windows.Forms.Label label1;
     }
 }
 

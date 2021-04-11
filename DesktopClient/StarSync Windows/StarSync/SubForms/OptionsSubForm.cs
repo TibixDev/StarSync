@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Win32;
+using StarSync.Properties;
 
 namespace StarSync.SubForms
 {
     public partial class OptionsSubForm : Form
     {
-        StarSyncMain ssMain;
+        private bool formConfigCompleted;
+        private readonly StarSyncMain ssMain;
 
-        bool formConfigCompleted = false;
         public OptionsSubForm(StarSyncMain referer_ssMain)
         {
             InitializeComponent();
@@ -25,44 +21,46 @@ namespace StarSync.SubForms
         {
             if (formConfigCompleted)
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                string starSyncPath = System.Reflection.Assembly.GetEntryAssembly().Location;
-                string fileName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                var starSyncPath = Assembly.GetEntryAssembly().Location;
+                var fileName = Assembly.GetExecutingAssembly().GetName().Name;
 
                 if (autoStartSwitch.Checked)
                 {
                     key.SetValue(fileName, starSyncPath);
-                    Properties.Settings.Default.autoStart = true;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.autoStart = true;
+                    Settings.Default.Save();
                 }
                 else
                 {
                     key.DeleteValue(fileName, false);
-                    Properties.Settings.Default.autoStart = false;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.autoStart = false;
+                    Settings.Default.Save();
                 }
             }
         }
 
         private void autosyncIntervalComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (formConfigCompleted) {
+            if (formConfigCompleted)
+            {
                 switch (autosyncIntervalComboBox.SelectedIndex)
                 {
                     case 0:
-                        Properties.Settings.Default.autoSyncInterval = 600;
+                        Settings.Default.autoSyncInterval = 600;
                         break;
                     case 1:
-                        Properties.Settings.Default.autoSyncInterval = 1800;
+                        Settings.Default.autoSyncInterval = 1800;
                         break;
                     case 2:
-                        Properties.Settings.Default.autoSyncInterval = 3600;
+                        Settings.Default.autoSyncInterval = 3600;
                         break;
                     case 3:
-                        Properties.Settings.Default.autoSyncInterval = 10800;
+                        Settings.Default.autoSyncInterval = 10800;
                         break;
                 }
-                Properties.Settings.Default.Save();
+
+                Settings.Default.Save();
                 ssMain.AutoSyncValidator();
             }
         }
@@ -73,34 +71,32 @@ namespace StarSync.SubForms
             {
                 if (autoSyncSwitch.Checked)
                 {
-                    Properties.Settings.Default.autoSync = true;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.autoSync = true;
+                    Settings.Default.Save();
                     autosyncIntervalComboBox.Enabled = true;
                     autosyncIntervalComboBox.SelectedIndex = 1;
                 }
 
                 else
                 {
-                    Properties.Settings.Default.autoSync = false;
-                    Properties.Settings.Default.autoSyncInterval = 0;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.autoSync = false;
+                    Settings.Default.autoSyncInterval = 0;
+                    Settings.Default.Save();
                     autosyncIntervalComboBox.Enabled = false;
                 }
+
                 ssMain.AutoSyncValidator();
             }
         }
 
         private void OptionsSubForm_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.autoSync)
-            {
-                autoSyncSwitch.Checked = true;
-            }
+            if (Settings.Default.autoSync) autoSyncSwitch.Checked = true;
 
-            if (Properties.Settings.Default.autoSyncInterval != 0) 
+            if (Settings.Default.autoSyncInterval != 0)
             {
                 autosyncIntervalComboBox.Enabled = true;
-                switch (Properties.Settings.Default.autoSyncInterval)
+                switch (Settings.Default.autoSyncInterval)
                 {
                     case 600:
                         autosyncIntervalComboBox.SelectedIndex = 0;
@@ -117,10 +113,7 @@ namespace StarSync.SubForms
                 }
             }
 
-            if (Properties.Settings.Default.autoStart)
-            {
-                autoStartSwitch.Checked = true;
-            }
+            if (Settings.Default.autoStart) autoStartSwitch.Checked = true;
 
             formConfigCompleted = true;
         }

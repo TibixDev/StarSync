@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using RestSharp;
 
 namespace StarSync.SubForms
 {
     public partial class HistorySubForm : Form
     {
-        private StarSyncMain initiatorBaseForm;
+        private readonly StarSyncMain initiatorBaseForm;
+
         public HistorySubForm(StarSyncMain starSyncMain)
         {
             initiatorBaseForm = starSyncMain;
@@ -24,16 +20,16 @@ namespace StarSync.SubForms
         private void HistorySubForm_Load(object sender, EventArgs e)
         {
             historyGrid.Visible = false;
-            Task historyTask = new Task(() => GetHistoryTask());
+            var historyTask = new Task(() => GetHistoryTask());
             historyTask.Start();
         }
 
         private void GetHistoryTask()
         {
-            Common.APIData rawHistory = Common.APISimpleRequest("getHistory");
-            string decodedHistory = Encoding.UTF8.GetString(Convert.FromBase64String(rawHistory.response));
-            List<Common.APIHistoryData> history = JsonConvert.DeserializeObject<List<Common.APIHistoryData>>(decodedHistory);
-            this.BeginInvoke((Action)delegate ()
+            var rawHistory = Common.APISimpleRequest("getHistory");
+            var decodedHistory = Encoding.UTF8.GetString(Convert.FromBase64String(rawHistory.response));
+            var history = JsonConvert.DeserializeObject<List<Common.APIHistoryData>>(decodedHistory);
+            BeginInvoke((Action) delegate
             {
                 historyGrid.AutoGenerateColumns = true;
                 historyGrid.DataSource = history;
@@ -54,48 +50,47 @@ namespace StarSync.SubForms
 
         private void historyGrid_CellClickHandler(object sender, DataGridViewCellEventArgs e)
         {
-            string saveID = historyGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
-            switch (e.ColumnIndex) {
+            var saveID = historyGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
+            switch (e.ColumnIndex)
+            {
                 // Restore Case
                 case 0:
-                    Task restoreTask = new Task(() => RestoreTask(saveID));
+                    var restoreTask = new Task(() => RestoreTask(saveID));
                     restoreTask.Start();
-                break;
+                    break;
 
                 // Delete Case
                 case 1:
-                    Task deleteTask = new Task(() => DeleteTask(saveID));
+                    var deleteTask = new Task(() => DeleteTask(saveID));
                     deleteTask.Start();
-                break;
+                    break;
             }
         }
 
         private void RestoreTask(string saveID)
         {
-            Common.APIData restoreResp = Common.APISimpleRequest("restoreSave", null, null, saveID, Common.ConvertToSQLDateTime(DateTime.Now));
+            var restoreResp = Common.APISimpleRequest("restoreSave", null, null, saveID,
+                Common.ConvertToSQLDateTime(DateTime.Now));
             if (restoreResp.status == "success")
             {
                 initiatorBaseForm.ExternalSync("restoreSync");
-            }
-            else
-            {
-                // todo toast notification
             }
         }
 
         private void DeleteTask(string saveID)
         {
-            Common.APIData deleteResp = Common.APISimpleRequest("deleteSave", null, null, saveID);
+            var deleteResp = Common.APISimpleRequest("deleteSave", null, null, saveID);
             if (deleteResp.status == "success")
             {
                 MessageBox.Show($"Deletion of save with saveID: {saveID} was successful.");
-                Task historyTask = new Task(() => GetHistoryTask());
+                var historyTask = new Task(() => GetHistoryTask());
                 historyTask.Start();
                 // todo toast notification
             }
             else
             {
-                MessageBox.Show($"An error occured while trying to delete save with saveID: {saveID}. ErrCode: {deleteResp.response}");
+                MessageBox.Show(
+                    $"An error occured while trying to delete save with saveID: {saveID}. ErrCode: {deleteResp.response}");
                 // todo toast notification
             }
         }

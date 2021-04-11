@@ -106,5 +106,17 @@ namespace StarSync.Properties {
                 this["autoStart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string savedHost {
+            get {
+                return ((string)(this["savedHost"]));
+            }
+            set {
+                this["savedHost"] = value;
+            }
+        }
     }
 }
